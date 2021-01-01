@@ -1,0 +1,14 @@
+#main_Tetris{
+    width: 300px;
+    height: 500px;
+    background-color: black;
+}
+
+#_1-5, #_2-5, #_3-5, #_4-5{
+    background-color: aqua;
+}
+
+td{
+    padding: 0px;
+    border: 0px;
+}
