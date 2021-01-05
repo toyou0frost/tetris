@@ -7,11 +7,20 @@ td{
     background-color: black;
 }
 
-#_1-4, #_1-5, #_1-6, #_1-7{
+#_0-4, #_0-5, #_0-6, #_0-7{
     background-color: aqua;
 }
 
 td{
     padding: 0px;
     border: 0px;
+}
+
+._0-i{
+    height: 3%;
+}
+
+._21-i{
+    background-color: white;
+    border: white;
 }
