@@ -1,4 +1,4 @@
-var _5lineI = 0;
+var _lineI = 0;
 var RdBlock = 0;
 var defalutColor = "rgb(0, 0, 0)";
 var _iblock = "rgb(0, 255, 255)";
@@ -11,40 +11,40 @@ var _zblock = "rgb(255, 0, 0)";
 var _nowBlockColor;
 
 onload = function(){
-    blockCreate(RdBlock);  
+    BlockCreate(RdBlock);  
 }
 
 
-setInterval(function tmp2() {
-    var Next = _5lineI + 1;
+setInterval(function BlockFall() {
+    var Next = _lineI + 1;
     for(var i = 1; i <= 10; i++){
-        var _now5line = document.getElementById("_" + _5lineI + "-"+i);
-        var _5lineNext = document.getElementById("_" + Next + "-"+i);
-        var tmp = getComputedStyle(_5lineNext).backgroundColor;
-        var tmp1 = getComputedStyle(_now5line).backgroundColor;
-        if(_now5line.id == "_20-"+i){
-            _5lineI = 0;
-            blockCreate(RdBlock);
+        var _nowLine = document.getElementById("_" + _lineI + "-"+i);
+        var _nowLineNext = document.getElementById("_" + Next + "-"+i);
+        var _nowLineNextColor = getComputedStyle(_nowLineNext).backgroundColor;
+        var _nowLineColor = getComputedStyle(_nowLine).backgroundColor;
+        if(_nowLine.id == "_20-"+i){
+            _lineI = 0;
+            BlockCreate(RdBlock);
         }
-        if (tmp == defalutColor) { 
-            if(tmp1 == _nowBlockColor){
-                _5lineNext.style.backgroundColor = _nowBlockColor;
-                _now5line.style.backgroundColor = defalutColor;
+        if (_nowLineNextColor == defalutColor) { 
+            if(_nowLineColor == _nowBlockColor){
+                _nowLineNext.style.backgroundColor = _nowBlockColor;
+                _nowLine.style.backgroundColor = defalutColor;
             }
         }
         else{
-            if(_now5line.id == "_0-4" || _now5line.id == "_0-5" || _now5line.id == "_0-6" || _now5line.id == "_0-7" ){
-                //alert("gameover");
+            if(_nowLine.id == "_0-4" || _nowLine.id == "_0-5" || _nowLine.id == "_0-6" || _nowLine.id == "_0-7" ){
+                alert("gameover");
             }
-            _5lineI = 0;
-            blockCreate(RdBlock);
+            _lineI = 0;
+            BlockCreate(RdBlock);
         }
     }
-    _5lineI++;
-}, 100) 
+    _lineI++;
+}, 50) 
 
 
-function blockCreate(RdBlock){
+function BlockCreate(RdBlock){
     var _0_4 = document.getElementById("_0-4");
     var _0_5 = document.getElementById("_0-5");
     var _0_6 = document.getElementById("_0-6");
@@ -59,7 +59,7 @@ function blockCreate(RdBlock){
             _0_6.style.backgroundColor = _iblock;
             _0_7.style.backgroundColor = _iblock;
             _nowBlockColor = _iblock;
-            tmp2();
+            BlockFall();
             break;
         case 1:
             _0_4.style.backgroundColor = _jblock; 
@@ -105,3 +105,61 @@ function blockCreate(RdBlock){
             break;
     }
 }
+
+document.addEventListener('keydown', (event) => {
+    const keyCode = event.key;
+    if(keyCode == "ArrowLeft"){
+        var cnt = 0
+        for(var i = 0; i < 20; i++){
+            for(var j = 1; j <= 10; j++){
+                var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
+                var leftJ = j - 1;
+                var nowBlockLeft = document.getElementById("_"+i+"-"+leftJ);
+                if(blockCheckColor == _nowBlockColor){
+                    cnt++;
+                    if(nowBlockLeft.id == "_"+i+"-0" || cnt == 5){
+                        break;
+                    }
+                    nowBlockLeft.style.backgroundColor = _nowBlockColor;
+                    blockCheck.style.backgroundColor = defalutColor;
+                }
+            }
+        }
+    }
+    else if(keyCode == "ArrowRight"){
+        var cnt = 0;
+        for(var i = 0; i < 20; i++){
+            for(var j = 10; j >= 0; j--){
+                var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
+                var leftJ = j + 1;
+                var nowBlockLeft = document.getElementById("_"+i+"-"+leftJ);
+                if(blockCheckColor == _nowBlockColor){
+                    cnt++;
+                    if(nowBlockLeft.id == "_"+i+"-11" || cnt == 5){
+                        break;
+                    }
+                    nowBlockLeft.style.backgroundColor = _nowBlockColor;
+                    blockCheck.style.backgroundColor = defalutColor;
+                }
+            }
+        }
+    }
+    /*
+    else if(keyCode == "ArrowDown"){
+        for(var i = 20; i > 0; i--){
+            for(var j = 0; j <= 10; j++){
+                var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
+                var lefti = i + 1;
+                if(blockCheckColor == _nowBlockColor){
+                    var nowBlockLeft = document.getElementById("_"+lefti+"-"+j);
+                    nowBlockLeft.style.backgroundColor = _nowBlockColor;
+                    blockCheck.style.backgroundColor = defalutColor;
+                    Next++;
+                }
+            }
+        }
+    }*/
+})
