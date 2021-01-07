@@ -1,10 +1,10 @@
 #main_Tetris{
     width: 300px;
-    height: 500px;
+    height: 80vh;
     background-color: black;
 }
 td{
-    background-color: black;
+    background-color: rgb(32, 32, 32);
 }
 
 
@@ -13,7 +13,7 @@ td{
     border: 0px;
 }
 
-._0-i{
+#_0tr{
     height: 3%;
 }
 
