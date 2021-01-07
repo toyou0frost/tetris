@@ -69,7 +69,7 @@ function BlockCreate(RdBlock){
     var _0_6 = document.getElementById("_0-6");
     var _0_7 = document.getElementById("_0-7");
     var _1_4 = document.getElementById("_1-4");
-    var _1_5 = document.getElementById("_1-5");
+    var _1_5 = document.getElementById("_1-5"); 
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
         switch(RdBlock[blockCreateI]){
@@ -167,8 +167,8 @@ document.addEventListener('keydown', (event) => {
             for(var j = 10; j >= 0; j--){
                 var blockCheck = document.getElementById("_"+i+"-"+j);
                 var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
-                var leftJ = j + 1;
-                var nowBlockLeft = document.getElementById("_"+i+"-"+leftJ);
+                var rightJ = j + 1;
+                var nowBlockLeft = document.getElementById("_"+i+"-"+rightJ);
                 if(blockCheckColor == _nowBlockColor){
                     cnt++;
                     if(nowBlockLeft.id == "_"+i+"-11" || cnt == 5){
@@ -182,13 +182,18 @@ document.addEventListener('keydown', (event) => {
     }
     /*
     else if(keyCode == "ArrowDown"){
+        var cnt = 0;
         for(var i = 20; i > 0; i--){
             for(var j = 0; j <= 10; j++){
                 var blockCheck = document.getElementById("_"+i+"-"+j);
                 var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
-                var lefti = i + 1;
+                var belowI = i + 1;
                 if(blockCheckColor == _nowBlockColor){
-                    var nowBlockLeft = document.getElementById("_"+lefti+"-"+j);
+                    cnt++;
+                    if(nowBlockLeft.id == "_21"+"-"+ j || cnt == 5){
+                        break;
+                    }
+                    var nowBlockLeft = document.getElementById("_"+belowI+"-"+j);
                     nowBlockLeft.style.backgroundColor = _nowBlockColor;
                     blockCheck.style.backgroundColor = defalutColor;
                     Next++;
