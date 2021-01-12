@@ -81,7 +81,7 @@ setInterval(function BlockFall() {
         }
     }
     _lineI--;
-}, 1000) 
+}, 2) 
 
 function BlockCreate(RdBlock){
     var _0_4 = document.getElementById("_0-4");
@@ -622,7 +622,7 @@ document.addEventListener('keydown', (event) => {
                 if(leftCount >= 6 || blockCheck.className != "currentBlockLocation"){
                     continue;
                 }
-                else if(_nowBlockColor == _sblock && blockCheckColor == _nowBlockColor){ // 블록회전시 조건도 카운트해서 처리해야함
+                else if(_nowBlockColor == _sblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){ // 블록회전시 조건도 카운트해서 처리해야함
                     switch(leftCount){
                         case -8: 
                         case -7: 
@@ -789,7 +789,7 @@ document.addEventListener('keydown', (event) => {
                             break;
                     }
                 }
-                else if(_nowBlockColor == _zblock && blockCheckColor == _nowBlockColor){
+                else if(_nowBlockColor == _zblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(leftCount){
                         case -8:
                         case -7:
@@ -967,7 +967,7 @@ document.addEventListener('keydown', (event) => {
                 if(rightCount >= 12 && blockCheck.className != "currentBlockLocation"){
                     continue;
                 }
-                else if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor){
+                else if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(rightCount){
                         case -9:
                         case -8:
@@ -1141,47 +1141,99 @@ document.addEventListener('keydown', (event) => {
                             break;
                     }
                 }
-                else if(_nowBlockColor == _lblock && blockCheckColor == _nowBlockColor){
+                else if(_nowBlockColor == _lblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(rightCount){
                         case -9:
                         case -8:
                         case -7:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-3")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "");
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case -6:
                         case -5:
                         case -4:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-4")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case -3:
                         case -2:
                         case -1:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-5")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 0:
                         case 1:
                         case 2:
                             rightCount += 1;
                             leftCount -= 1;
-                            if(getComputedStyle(document.getElementById("_"+i+"-6")).backgroundColor == _nowBlockColor){ // case 4개로 늘리면 픽스는 가능
-                                alert(i+"a");
-                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
-                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                            if(getComputedStyle(document.getElementById("_"+i+"-6")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
-                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                             }
                             else{
-                                //document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
-                                alert(i+"b");
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
-                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
-                                document.getElementById("_"+i+"-4").setAttribute("class", "");
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
@@ -1192,18 +1244,71 @@ document.addEventListener('keydown', (event) => {
                         case 5:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-7")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 6:
                         case 7:
                         case 8:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-8")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-10").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 9:
                         case 10:
                         case 11:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-9")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-9").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-10").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-10").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         default:
                             break;
@@ -1260,7 +1365,7 @@ document.addEventListener('keydown', (event) => {
                 if(rightCount >= 8 && blockCheck.className != "currentBlockLocation"){
                     continue;
                 }
-                else if(_nowBlockColor == _sblock && blockCheckColor == _nowBlockColor){ // 블록회전시 조건도 카운트해서 처리해야함
+                else if(_nowBlockColor == _sblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){ // 블록회전시 조건도 카운트해서 처리해야함
                     switch(rightCount){
                         case -6: 
                         case -5: 
@@ -1427,7 +1532,7 @@ document.addEventListener('keydown', (event) => {
                             break;
                     }
                 }
-                else if(_nowBlockColor == _zblock && blockCheckColor == _nowBlockColor){
+                else if(_nowBlockColor == _zblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(rightCount){
                         case -6:
                         case -5:
