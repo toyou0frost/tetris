@@ -76,6 +76,8 @@ setInterval(function BlockFall() {
                     RdBlock = BlockType;
                 }
                 ClassInitialization();
+                BlockExist();
+                LineClear();
                 BlockCreate(RdBlock);
             }
         }
@@ -93,7 +95,7 @@ function BlockCreate(RdBlock){
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
         //switch(RdBlock[blockCreateI]){
-            switch(2){
+            switch(1){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -578,42 +580,168 @@ document.addEventListener('keydown', (event) => {
                         case -10:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-9")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-10").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "");
+                            }
                             break;
                         case -9:
                         case -8:
                         case -7:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-8")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "");
+                            }
                             break;
                         case -6:
                         case -5:
                         case -4:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-7")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "");
+                            }
                             break;
                         case -3:
                         case -2:
                         case -1:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-6")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
+                            }
                             break;
                         case 0:
                         case 1:
                         case 2:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-5")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
+                            }
                             break;
                         case 3:
                         case 4:
                         case 5:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-4")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
+                            }
                             break;
                         case 6:
                         case 7:
                         case 8:
                             leftCount += 1;
                             rightCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-3")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-1").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-1").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
+                            }
                             break;
                         default:
                             break;
@@ -1314,49 +1442,182 @@ document.addEventListener('keydown', (event) => {
                             break;
                     }
                 }
-                else if(_nowBlockColor == _jblock && blockCheckColor == _nowBlockColor){
+                else if(_nowBlockColor == _jblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(rightCount){
                         case -9:
                         case -8:
                         case -7:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-3")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "");
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "");
+                                document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case -6:
                         case -5:
                         case -4:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-4")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "");
+                                document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case -3:
                         case -2:
                         case -1:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-5")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 0:
                         case 1:
                         case 2:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-6")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 3:
                         case 4:
                         case 5:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-7")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 6:
                         case 7:
                         case 8:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-8")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         case 9:
                         case 10:
                         case 11:
                             rightCount += 1;
                             leftCount -= 1;
+                            if(getComputedStyle(document.getElementById("_"+i+"-9")).backgroundColor == _nowBlockColor){
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-10").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
+                            }
+                            else{
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-9").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
+                            }
                             break;
                         default:
                             break;
@@ -1735,11 +1996,56 @@ function ClassInitialization() {
     }
 }
 
+function BlockExist(){
+    for(var i = 0; i <= 20; i++){
+        for(var j = 1; j <= 10; j++){
+            var nowBlock = document.getElementById("_"+i+"-"+j);
+            var nowBlockColor = getComputedStyle(nowBlock).backgroundColor;
+            if(nowBlockColor != defalutColor){
+                nowBlock.setAttribute("class", "blockexist");
+            }
+        }
+    }
+}
+
 function GameOver(){
     //alert("gameover"); // 점수 랭킹 html로 이동
     clearInterval(BlockFall);
 }
 
 function LineClear(){
-    
+    for(var i = 20; i >= 0; i--){
+        var _i_1 = document.getElementById("_"+i+"-1");
+        var _i_2 = document.getElementById("_"+i+"-2");
+        var _i_3 = document.getElementById("_"+i+"-3");
+        var _i_4 = document.getElementById("_"+i+"-4");
+        var _i_5 = document.getElementById("_"+i+"-5");
+        var _i_6 = document.getElementById("_"+i+"-6");
+        var _i_7 = document.getElementById("_"+i+"-7");
+        var _i_8 = document.getElementById("_"+i+"-8");
+        var _i_9 = document.getElementById("_"+i+"-9");
+        var _i_10 = document.getElementById("_"+i+"-10");
+        if(_i_1.className == "blockexist" && _i_2.className == "blockexist" && _i_3.className == "blockexist" && _i_4.className == "blockexist" && _i_5.className == "blockexist" && _i_6.className == "blockexist" && _i_7.className == "blockexist" && _i_8.className == "blockexist" && _i_9.className == "blockexist" && _i_10.className == "blockexist"){
+            _i_1.style.backgroundColor = defalutColor;
+            _i_2.style.backgroundColor = defalutColor;
+            _i_3.style.backgroundColor = defalutColor;
+            _i_4.style.backgroundColor = defalutColor;
+            _i_5.style.backgroundColor = defalutColor;
+            _i_6.style.backgroundColor = defalutColor;
+            _i_7.style.backgroundColor = defalutColor;
+            _i_8.style.backgroundColor = defalutColor;
+            _i_9.style.backgroundColor = defalutColor;
+            _i_10.style.backgroundColor = defalutColor;
+            _i_1.setAttribute("class", "");
+            _i_2.setAttribute("class", "");
+            _i_3.setAttribute("class", "");
+            _i_4.setAttribute("class", "");
+            _i_5.setAttribute("class", "");
+            _i_6.setAttribute("class", "");
+            _i_7.setAttribute("class", "");
+            _i_8.setAttribute("class", "");
+            _i_9.setAttribute("class", "");
+            _i_10.setAttribute("class", "");
+        }
+    }
 }
