@@ -35,12 +35,56 @@ const ShuffleBlock = array => {
 
 var BlockFall = setInterval(function() {
     var Next = _lineI + 1;
+    var blockFallAppropriate = 1;
     for(var j = 1; j <= 10; j++){
+        if(document.getElementById("_0-4").className == "blockexist" || document.getElementById("_0-5").className == "blockexist" || document.getElementById("_0-6").className == "blockexist" || document.getElementById("_0-7").className == "blockexist"){ // 나중에 클래스 이름을 통해 검사
+            GameOver();
+            break;
+        }
         if(_lineI == -1){
             _lineI = 20;
         }
+        var _1plusJ = j + 1;
+        var _2plusJ = j + 2;
+        var _3plusJ = j + 3;
         var _nowLine = document.getElementById("_" + _lineI + "-"+j);
         var _nowLineNext = document.getElementById("_" + Next + "-"+j);
+        var _nowLine_1Right = document.getElementById("_" + _lineI + "-"+ _1plusJ);
+        var _nowLineNext_1Right = document.getElementById("_" + Next + "-"+ _1plusJ);
+        var _nowLine_2Right = document.getElementById("_" + _lineI + "-"+ _2plusJ);
+        var _nowLineNext_2Right = document.getElementById("_" + Next + "-"+ _2plusJ);
+        var _nowLine_3Right = document.getElementById("_" + _lineI + "-"+ _3plusJ);
+        var _nowLineNext_3Right = document.getElementById("_" + Next + "-"+ _3plusJ);
+        if(true){
+            var _nowLineNextColor_1Right = getComputedStyle(_nowLineNext_1Right).backgroundColor;
+            var _nowLineColor_1Right = getComputedStyle(_nowLine_1Right).backgroundColor;
+            if(_nowLineColor_1Right == _nowBlockColor){
+                if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_1Right != defalutColor){
+                    alert("a");
+                    blockFallAppropriate = 0;
+                }
+            }
+        }
+        if(j < 10){
+            var _nowLineNextColor_2Right = getComputedStyle(_nowLineNext_2Right).backgroundColor;
+            var _nowLineColor_2Right = getComputedStyle(_nowLine_2Right).backgroundColor;
+            if(_nowLineColor_2Right == _nowBlockColor){
+                if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_2Right != defalutColor){
+                    alert("b");
+                    blockFallAppropriate = 0;
+                }
+            }
+        }
+        if(j < 9){
+            var _nowLineNextColor_3Right = getComputedStyle(_nowLineNext_3Right).backgroundColor;
+            var _nowLineColor_3Right = getComputedStyle(_nowLine_3Right).backgroundColor;
+            if(_nowLineColor_3Right == _nowBlockColor){
+                if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_3Right != defalutColor){
+                    alert("c");
+                    blockFallAppropriate = 0;
+                }
+            }
+        }
         var _nowLineNextColor = getComputedStyle(_nowLineNext).backgroundColor;
         var _nowLineColor = getComputedStyle(_nowLine).backgroundColor;
         if(_nowLine.id == "_20-"+j && _nowLine.className == "currentBlockLocation"){ // 바닥에 닿았을 때 블록 생성
@@ -52,9 +96,8 @@ var BlockFall = setInterval(function() {
             BlockCreate(RdBlock);
         }
         if(_nowLine.className == "currentBlockLocation"){
-            if(_nowLineNextColor == defalutColor){
+            if(_nowLineNextColor == defalutColor && blockFallAppropriate == 1){
                 if(_nowLineColor == defalutColor){
-                    //alert(_nowLineNext.id);
                     _nowLineNext.setAttribute("class", "currentBlockLocation");
                     _nowLine.setAttribute("class", "");
                     continue;
@@ -67,9 +110,10 @@ var BlockFall = setInterval(function() {
                 }
             }
             else{
-                if(document.getElementById("_0-4").className == "blockexist" || document.getElementById("_0-5").className == "blockexist" || document.getElementById("_0-6").className == "blockexist" || document.getElementById("_0-7").className == "blockexist"){ // 나중에 클래스 이름을 통해 검사
-                    GameOver();
-                }
+                //alert(blockFallAppropriate);
+                alert(_nowLine.id);
+                //alert(_nowLineNext.id);
+                //alert(_nowLineNextColor);
                 _lineI = 19;
                 if(blockCreateI == 7){
                     blockCreateI = 0;
@@ -86,6 +130,7 @@ var BlockFall = setInterval(function() {
     _lineI--;
 }, 10) 
 
+var test = 1;
 function BlockCreate(RdBlock){
     var _0_4 = document.getElementById("_0-4");
     var _0_5 = document.getElementById("_0-5");
@@ -96,18 +141,20 @@ function BlockCreate(RdBlock){
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
         switch(RdBlock[blockCreateI]){
-            //switch(3){
+            //switch(test){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
-                _0_4.style.backgroundColor = _iblock; 
-                _0_5.style.backgroundColor = _iblock;
-                _0_6.style.backgroundColor = _iblock;
-                _0_7.style.backgroundColor = _iblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _0_7.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist" && _0_7.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _0_7.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _iblock; 
+                    _0_5.style.backgroundColor = _iblock;
+                    _0_6.style.backgroundColor = _iblock;
+                    _0_7.style.backgroundColor = _iblock;
+                }
                 _nowBlockColor = _iblock;
                 blockCreateI++
                 BlockFall();
@@ -115,16 +162,19 @@ function BlockCreate(RdBlock){
             case 1:
                 leftCount = 0;
                 rightCount = 0;
-                _0_4.style.backgroundColor = _jblock; 
-                _1_4.style.backgroundColor = _jblock;
-                _1_5.style.backgroundColor = _jblock;
-                _1_6.style.backgroundColor = _jblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_4.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _jblock; 
+                    _1_4.style.backgroundColor = _jblock;
+                    _1_5.style.backgroundColor = _jblock;
+                    _1_6.style.backgroundColor = _jblock;
+                }
+                test = 6; // 테스트용
                 _nowBlockColor = _jblock;
                 blockCreateI++
                 BlockFall();
@@ -132,16 +182,18 @@ function BlockCreate(RdBlock){
             case 2:
                 leftCount = 0;
                 rightCount = 0;
-                _0_6.style.backgroundColor = _lblock;
-                _1_4.style.backgroundColor = _lblock; 
-                _1_5.style.backgroundColor = _lblock;
-                _1_6.style.backgroundColor = _lblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_4.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_6.style.backgroundColor = _lblock;
+                    _1_4.style.backgroundColor = _lblock; 
+                    _1_5.style.backgroundColor = _lblock;
+                    _1_6.style.backgroundColor = _lblock;
+                }
                 _nowBlockColor = _lblock;
                 blockCreateI++
                 BlockFall();
@@ -149,14 +201,16 @@ function BlockCreate(RdBlock){
             case 3:
                 leftCount = 0;
                 rightCount = 0;
-                _0_5.style.backgroundColor = _oblock; 
-                _0_6.style.backgroundColor = _oblock;
-                _1_5.style.backgroundColor = _oblock;
-                _1_6.style.backgroundColor = _oblock;
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _oblock; 
+                    _0_6.style.backgroundColor = _oblock;
+                    _1_5.style.backgroundColor = _oblock;
+                    _1_6.style.backgroundColor = _oblock;
+                }
                 _nowBlockColor = _oblock;
                 blockCreateI++
                 BlockFall();
@@ -164,16 +218,18 @@ function BlockCreate(RdBlock){
             case 4:
                 leftCount = 0;
                 rightCount = 0;
-                _0_5.style.backgroundColor = _sblock; 
-                _0_6.style.backgroundColor = _sblock;
-                _1_4.style.backgroundColor = _sblock;
-                _1_5.style.backgroundColor = _sblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_4.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _sblock; 
+                    _0_6.style.backgroundColor = _sblock;
+                    _1_4.style.backgroundColor = _sblock;
+                    _1_5.style.backgroundColor = _sblock;
+                }
                 _nowBlockColor = _sblock;
                 blockCreateI++
                 BlockFall();
@@ -181,16 +237,18 @@ function BlockCreate(RdBlock){
             case 5:
                 leftCount = 0;
                 rightCount = 0;
-                _0_5.style.backgroundColor = _tblock;
-                _1_4.style.backgroundColor = _tblock; 
-                _1_5.style.backgroundColor = _tblock;
-                _1_6.style.backgroundColor = _tblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_4.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _tblock;
+                    _1_4.style.backgroundColor = _tblock; 
+                    _1_5.style.backgroundColor = _tblock;
+                    _1_6.style.backgroundColor = _tblock;
+                }
                 _nowBlockColor = _tblock;
                 blockCreateI++
                 BlockFall();
@@ -198,16 +256,19 @@ function BlockCreate(RdBlock){
             case 6:
                 leftCount = 0;
                 rightCount = 0;
-                _0_4.style.backgroundColor = _zblock; 
-                _0_5.style.backgroundColor = _zblock;
-                _1_5.style.backgroundColor = _zblock;
-                _1_6.style.backgroundColor = _zblock;
-                _0_4.setAttribute("class", "currentBlockLocation");
-                _0_5.setAttribute("class", "currentBlockLocation");
-                _0_6.setAttribute("class", "currentBlockLocation");
-                _1_4.setAttribute("class", "currentBlockLocation");
-                _1_5.setAttribute("class", "currentBlockLocation");
-                _1_6.setAttribute("class", "currentBlockLocation");
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _zblock; 
+                    _0_5.style.backgroundColor = _zblock;
+                    _1_5.style.backgroundColor = _zblock;
+                    _1_6.style.backgroundColor = _zblock;
+                }
+                test = 1; // 테스트용
                 _nowBlockColor = _zblock;
                 blockCreateI++
                 BlockFall();
@@ -241,6 +302,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
@@ -265,6 +327,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
@@ -289,6 +352,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
@@ -313,6 +377,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
@@ -337,6 +402,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
@@ -361,6 +427,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
@@ -385,6 +452,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-1").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
@@ -415,6 +483,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-8").style.backgroundColor = defalutColor;
@@ -439,6 +508,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
@@ -463,6 +533,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
@@ -487,6 +558,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
@@ -511,6 +583,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
@@ -535,6 +608,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
@@ -559,6 +633,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-1").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
@@ -589,6 +664,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
@@ -613,6 +689,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-9").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
@@ -637,6 +714,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-8").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
@@ -661,6 +739,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
@@ -685,6 +764,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
@@ -709,6 +789,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-2").style.backgroundColor = _nowBlockColor;
@@ -733,6 +814,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-1").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                             }
                             else{
                                 document.getElementById("_"+i+"-1").style.backgroundColor = _nowBlockColor;
@@ -764,6 +846,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+i+"-10").setAttribute("class", "");
                             }
                             break;
                         case -9:
@@ -1346,6 +1429,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "");
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
@@ -1370,6 +1454,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
@@ -1394,6 +1479,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
@@ -1418,6 +1504,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
@@ -1442,6 +1529,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
@@ -1466,6 +1554,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
@@ -1490,6 +1579,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-10").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
@@ -1529,6 +1619,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-3").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-1").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-1").setAttribute("class", "");
                                 document.getElementById("_"+i+"-2").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
@@ -1553,6 +1644,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-4").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-2").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-2").setAttribute("class", "");
                                 document.getElementById("_"+i+"-3").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
@@ -1577,6 +1669,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-3").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-3").setAttribute("class", "");
                                 document.getElementById("_"+i+"-4").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
@@ -1601,6 +1694,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-6").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
                                 document.getElementById("_"+i+"-5").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
@@ -1625,6 +1719,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-7").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
                                 document.getElementById("_"+i+"-6").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
@@ -1649,6 +1744,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-8").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
                                 document.getElementById("_"+i+"-7").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
@@ -1672,6 +1768,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-9").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-10").style.backgroundColor = _nowBlockColor;
                                 document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
                                 document.getElementById("_"+i+"-8").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-9").setAttribute("class", "currentBlockLocation");
                                 document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
