@@ -22,6 +22,7 @@ var stop = false;
 var keyEvent = null;
 var blockMoveOK = false;
 var quit = false;
+var spin = false;
 
 onload = function(){
     ClassInitialization();
@@ -162,8 +163,8 @@ function BlockCreate(RdBlock){
     var _1_5 = document.getElementById("_1-5"); 
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
-        switch(RdBlock[blockCreateI]){
-        //switch(4){
+        //switch(RdBlock[blockCreateI]){
+        switch(0){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -180,6 +181,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _iblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 1:
@@ -201,6 +203,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _jblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 2:
@@ -221,6 +224,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _lblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 3:
@@ -239,6 +243,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _oblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 4:
@@ -259,6 +264,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _sblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 5:
@@ -279,6 +285,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _tblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
             case 6:
@@ -300,6 +307,7 @@ function BlockCreate(RdBlock){
                 _nowBlockColor = _zblock;
                 blockCreateI++
                 ing = false;
+                spin = false;
                 BlockFall();
                 break;
         }
@@ -2630,6 +2638,7 @@ document.addEventListener('keydown', (event) => {
     else if(keyCode == "ArrowDown"){
         keyEvent = "down";
         BlockMove(keyEvent);
+        return;
         var cnt = 0;
         for(var i = 20; i > 0; i--){
             for(var j = 0; j <= 10; j++){
@@ -2654,6 +2663,8 @@ document.addEventListener('keydown', (event) => {
     }
     else if(keyCode == "z" || keyCode == "Z"  && gameover != 1){
         keyEvent = "leftTrun";
+        BlockMove(keyEvent);
+        return;
         for(var i = 0; i <= 20; i++){
             for(var j = 1; j <= 10; j++){
                 var blockCheck = document.getElementById("_"+i+"-"+j);
@@ -2743,6 +2754,8 @@ document.addEventListener('keydown', (event) => {
     }
     else if(keyCode == "x" || keyCode == "X"  && gameover != 1){
         keyEvent = "rightTrun";
+        BlockMove(keyEvent);
+        return;
         for(var i = 0; i <= 20; i++){
             for(var j = 1; j <= 10; j++){
                 var blockCheck = document.getElementById("_"+i+"-"+j);
@@ -2873,12 +2886,34 @@ function BlockMove(keyEvent){
     var _1plusI = 0;
     var _1minusJ = 0;
     var _1plusJ = 0;
+    var _2plusI = 0
+    var _1minusI = 0;
+    var _2minusI = 0;
+    var _3plusj = 0;
     var blockCheck;
     var blockCheckDown;
     var blockCheckLeft;
     var blockCheckRight;
     var blockCheckColor;
     var blockCheckDownColor;
+    var blockCheck_1Down;
+    var blockCheck_2Down;
+    var blockCheck_1Up;
+    var blockCheck_2Up;
+    var blockCheck_1DownColor;
+    var blockCheck_2DownColor;
+    var blockCheck_1UpColor;
+    var blockCheck_2UpColor;
+    var blockCheck_1Left;
+    var blockCheck_2Left;
+    var blockCheck_1Right;
+    var blockCheck_2Right;
+    var blockCheck_1RightColor;
+    var blockCheck_2RightColor;
+    var blockCheck_1LeftColor;
+    var blockCheck_2LeftColor;
+    var blockCheck_3Right;
+    var blockCheck_3RightColor;
 
     switch(keyEvent){
         case "left":
@@ -3014,19 +3049,132 @@ function BlockMove(keyEvent){
             }
             break;
         case "leftTrun":
+            canMove = true;
             switch(_nowBlockColor){
                 case _iblock:
-                    break
+                    for(var i = 2; i <= 18; i++){
+                        for(var j = 3; j <= 8; j++){
+                            _1minusI = i - 1;
+                            _2minusI = i - 2;
+                            _1plusI = i + 1;
+                            _2plusI = i + 2;
+                            _1minusj = j - 1;
+                            _2minusj = j - 2;
+                            _1plusj = j + 1;
+                            _2plusj = j + 2;
+                            _3plusj = j + 3;
+                            blockCheck = document.getElementById("_"+i+"-"+j);
+                            blockCheck_1Down = document.getElementById("_"+_1plusI+"-"+j);
+                            blockCheck_2Down = document.getElementById("_"+_2plusI+"-"+j);
+                            blockCheck_1Up = document.getElementById("_"+_1minusI+"-"+j);
+                            blockCheck_2Up = document.getElementById("_"+_2minusI+"-"+j);
+                            blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                            blockCheck_1DownColor = getComputedStyle(blockCheck_1Down).backgroundColor;
+                            blockCheck_2DownColor = getComputedStyle(blockCheck_2Down).backgroundColor;
+                            blockCheck_1UpColor = getComputedStyle(blockCheck_1Up).backgroundColor;
+                            blockCheck_2UpColor = getComputedStyle(blockCheck_2Up).backgroundColor;
+                            blockCheck_1Left = document.getElementById("_"+i+"-"+_1minusj);
+                            blockCheck_2Left = document.getElementById("_"+i+"-"+_2minusj);
+                            blockCheck_1Right = document.getElementById("_"+i+"-"+_1plusj);
+                            blockCheck_2Right = document.getElementById("_"+i+"-"+_2plusj);
+                            blockCheck_1RightColor = getComputedStyle(blockCheck_1Right).backgroundColor;
+                            blockCheck_2RightColor = getComputedStyle(blockCheck_2Right).backgroundColor;
+                            blockCheck_1LeftColor = getComputedStyle(blockCheck_1Left).backgroundColor;
+                            blockCheck_2LeftColor = getComputedStyle(blockCheck_2Left).backgroundColor;
+                            if(blockCheck.className == "currentBlockLocation" && blockCheckColor == _nowBlockColor){
+                                if(spin){
+                                    if(blockCheck_1LeftColor != defalutColor && blockCheck_1Left.className != "currentBlockLocation" || blockCheck_1Left.className == "blockexist" || blockCheck_1RightColor != defalutColor  && blockCheck_1Right.className != "currentBlockLocation" || blockCheck_1Right.className == "blockexist"  && blockCheck_2Left.className != "currentBlockLocation" || blockCheck_2Left.className == "blockexist" || blockCheck_2LeftColor != defalutColor){
+                                        canMove = false;
+                                    }
+                                    else{
+                                        canMove = true;
+                                    }
+                                }
+                                else{
+                                    if(blockCheck_1DownColor != defalutColor && blockCheck_1Down.className != "currentBlockLocation" || blockCheck_1Down.className == "blockexist" || blockCheck_2DownColor != defalutColor  && blockCheck_2Down.className != "currentBlockLocation" || blockCheck_2Down.className == "blockexist"  && blockCheck_1Up.className != "currentBlockLocation" || blockCheck_1Up.className == "blockexist" || blockCheck_1UpColor != defalutColor){
+                                        canMove = false;
+                                    }
+                                    else{
+                                        canMove = true;
+                                    }
+                                }
+                            }
+                        }
+                        if(!canMove){
+                            break;
+                        }
+                    }
+                    if(canMove){
+                        for(var i = 2; i <= 18; i++){
+                            for(var j = 3; j <= 8; j++){
+                                _1minusI = i - 1;
+                                _2minusI = i - 2;
+                                _1plusI = i + 1;
+                                _2plusI = i + 2;
+                                _1minusj = j - 1;
+                                _2minusj = j - 2;
+                                _1plusj = j + 1;
+                                _2plusj = j + 2;
+                                _3plusj = j + 3;
+                                blockCheck = document.getElementById("_"+i+"-"+j);
+                                blockCheck_1Down = document.getElementById("_"+_1plusI+"-"+j);
+                                blockCheck_2Down = document.getElementById("_"+_2plusI+"-"+j);
+                                blockCheck_1Up = document.getElementById("_"+_1minusI+"-"+j);
+                                blockCheck_2Up = document.getElementById("_"+_2minusI+"-"+j);
+                                blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                                blockCheck_1DownColor = getComputedStyle(blockCheck_1Down).backgroundColor;
+                                blockCheck_2DownColor = getComputedStyle(blockCheck_2Down).backgroundColor;
+                                blockCheck_1UpColor = getComputedStyle(blockCheck_1Up).backgroundColor;
+                                blockCheck_2UpColor = getComputedStyle(blockCheck_2Up).backgroundColor;
+                                blockCheck_1Left = document.getElementById("_"+i+"-"+_1minusj);
+                                blockCheck_2Left = document.getElementById("_"+i+"-"+_2minusj);
+                                blockCheck_1Right = document.getElementById("_"+i+"-"+_1plusj);
+                                blockCheck_2Right = document.getElementById("_"+i+"-"+_2plusj);
+                                blockCheck_3Right = document.getElementById("_"+i+"-"+_3plusj);
+                                blockCheck_1RightColor = getComputedStyle(blockCheck_1Right).backgroundColor;
+                                blockCheck_2RightColor = getComputedStyle(blockCheck_2Right).backgroundColor;
+                                blockCheck_3RightColor = getComputedStyle(blockCheck_3Right).backgroundColor;
+                                blockCheck_1LeftColor = getComputedStyle(blockCheck_1Left).backgroundColor;
+                                blockCheck_2LeftColor = getComputedStyle(blockCheck_2Left).backgroundColor;
+                                if(blockCheck.className == "currentBlockLocation" && blockCheckColor == _nowBlockColor){
+                                    if(spin){
+                                        spin = false;
+                                    }
+                                    else{
+                                        console.log("a");
+                                        blockCheck_1Down.style.backgroundColor = _nowBlockColor;
+                                        blockCheck_2Down.style.backgroundColor = _nowBlockColor;
+                                        blockCheck_1Up.style.backgroundColor = _nowBlockColor;
+                                        blockCheck_1Down.setAttribute("class", "currentBlockLocation");
+                                        blockCheck_2Down.setAttribute("class", "currentBlockLocation");
+                                        blockCheck_1Up.setAttribute("class", "currentBlockLocation");
+                                        blockCheck_1Right.style.backgroundColor = defalutColor;
+                                        blockCheck_2Right.style.backgroundColor = defalutColor;
+                                        blockCheck_3Right.style.backgroundColor = defalutColor;
+                                        console.log(blockCheck_1Right.id);
+                                        blockCheck_1Right.setAttribute("class", "");
+                                        blockCheck_2Right.setAttribute("class", "");
+                                        blockCheck_3Right.setAttribute("class", "");
+                                        spin = true;
+                                        canMove = false;
+                                    }
+                                }
+                            }
+                            if(!canMove){
+                                break;
+                            }
+                        }
+                        return;
+                    }
+                    break;
                 case _jblock:
-                    break
+                    break;
                 case _lblock:
-                    break
+                    break;
                 case _zblock:
-                    break
+                    break;
                 case _sblock:
-                    break
-                case _oblock:
-                    break
+                    break;
                 case _tblock:
                     break
                 default:
@@ -3036,19 +3184,17 @@ function BlockMove(keyEvent){
         case "rightTrun":
             switch(_nowBlockColor){
                 case _iblock:
-                    break
+                    break;
                 case _jblock:
-                    break
+                    break;
                 case _lblock:
-                    break
+                    break;
                 case _zblock:
-                    break
+                    break;
                 case _sblock:
-                    break
-                case _oblock:
-                    break
+                    break;
                 case _tblock:
-                    break
+                    break;
                 default:
                     break;
             }
