@@ -13,9 +13,14 @@ var RdBlock = BlockType;
 var blockCreateI = 0;
 var leftCount = 0;
 var rightCount = 0;
+var leftTurnCount = 0;
+var rightTurnCount = 0;
 var lineClearCount = 0;
 var gameover = 0;
-
+var ing = false; 
+var stop = false;
+var keyEvent = null;
+var blockMoveOK = false;
 
 onload = function(){
     ClassInitialization();
@@ -33,9 +38,15 @@ const ShuffleBlock = array => {
     return array;
 };
 
-var BlockFall = setInterval(function() {
+setInterval(function BlockFall() {
+    //console.log(ing);
+    if(ing == true){
+        return;
+    }
+    ing = true;
     var Next = _lineI + 1;
     var blockFallAppropriate = 1;
+    stop = false;
     for(var j = 1; j <= 10; j++){
         if(document.getElementById("_0-4").className == "blockexist" || document.getElementById("_0-5").className == "blockexist" || document.getElementById("_0-6").className == "blockexist" || document.getElementById("_0-7").className == "blockexist"){ // 나중에 클래스 이름을 통해 검사
             GameOver();
@@ -60,7 +71,7 @@ var BlockFall = setInterval(function() {
             var _nowLineColor_1Right = getComputedStyle(_nowLine_1Right).backgroundColor;
             if(_nowLineColor_1Right == _nowBlockColor){
                 if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_1Right != defalutColor){
-                    alert("a");
+                    //alert("a");
                     blockFallAppropriate = 0;
                 }
             }
@@ -70,7 +81,7 @@ var BlockFall = setInterval(function() {
             var _nowLineColor_2Right = getComputedStyle(_nowLine_2Right).backgroundColor;
             if(_nowLineColor_2Right == _nowBlockColor){
                 if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_2Right != defalutColor){
-                    alert("b");
+                    //alert("b");
                     blockFallAppropriate = 0;
                 }
             }
@@ -80,7 +91,7 @@ var BlockFall = setInterval(function() {
             var _nowLineColor_3Right = getComputedStyle(_nowLine_3Right).backgroundColor;
             if(_nowLineColor_3Right == _nowBlockColor){
                 if(_nowLine.className == "currentBlockLocation" && _nowLineNextColor == defalutColor && _nowLineNextColor_3Right != defalutColor){
-                    alert("c");
+                    //alert("c");
                     blockFallAppropriate = 0;
                 }
             }
@@ -95,7 +106,7 @@ var BlockFall = setInterval(function() {
             ClassInitialization();
             BlockCreate(RdBlock);
         }
-        if(_nowLine.className == "currentBlockLocation"){
+        if(_nowLine.className == "currentBlockLocation" && _nowLineColor == _nowBlockColor){
             if(_nowLineNextColor == defalutColor && blockFallAppropriate == 1){
                 if(_nowLineColor == defalutColor){
                     _nowLineNext.setAttribute("class", "currentBlockLocation");
@@ -111,24 +122,30 @@ var BlockFall = setInterval(function() {
             }
             else{
                 //alert(blockFallAppropriate);
-                alert(_nowLine.id);
+                //alert(_nowLine.id);
                 //alert(_nowLineNext.id);
                 //alert(_nowLineNextColor);
                 _lineI = 19;
-                if(blockCreateI == 7){
-                    blockCreateI = 0;
-                    ShuffleBlock(BlockType); 
-                    RdBlock = BlockType;
-                }
-                ClassInitialization();
-                BlockExist();
-                LineClear();
-                BlockCreate(RdBlock);
+                stop = true;
             }
         }
     }
     _lineI--;
-}, 10) 
+    ing = false;
+    //console.log("a");
+    if(stop){
+        if(blockCreateI == 7){
+            console.log("a");
+            blockCreateI = 0;
+            ShuffleBlock(BlockType); 
+            RdBlock = BlockType;
+        }
+        ClassInitialization();
+        BlockExist();
+        LineClear();
+        BlockCreate(RdBlock);
+    }
+}, 100) 
 
 var test = 1;
 function BlockCreate(RdBlock){
@@ -140,8 +157,8 @@ function BlockCreate(RdBlock){
     var _1_5 = document.getElementById("_1-5"); 
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
-        switch(RdBlock[blockCreateI]){
-            //switch(test){
+        //switch(RdBlock[blockCreateI]){
+        switch(2){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -157,6 +174,7 @@ function BlockCreate(RdBlock){
                 }
                 _nowBlockColor = _iblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 1:
@@ -177,6 +195,7 @@ function BlockCreate(RdBlock){
                 test = 6; // 테스트용
                 _nowBlockColor = _jblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 2:
@@ -196,6 +215,7 @@ function BlockCreate(RdBlock){
                 }
                 _nowBlockColor = _lblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 3:
@@ -213,6 +233,7 @@ function BlockCreate(RdBlock){
                 }
                 _nowBlockColor = _oblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 4:
@@ -232,6 +253,7 @@ function BlockCreate(RdBlock){
                 }
                 _nowBlockColor = _sblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 5:
@@ -251,6 +273,7 @@ function BlockCreate(RdBlock){
                 }
                 _nowBlockColor = _tblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
             case 6:
@@ -271,6 +294,7 @@ function BlockCreate(RdBlock){
                 test = 1; // 테스트용
                 _nowBlockColor = _zblock;
                 blockCreateI++
+                ing = false;
                 BlockFall();
                 break;
         }
@@ -279,15 +303,28 @@ function BlockCreate(RdBlock){
 
 document.addEventListener('keydown', (event) => {
     const keyCode = event.key;
+    //console.log(keyCode);
     if(keyCode == "ArrowLeft" && gameover != 1){
+        keyEvent = "left";
         for(var i = 0; i < 20; i++){
             for(var j = 1; j <= 10; j++){
+                var _1minusJ = j - 1;
                 var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
                 var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
-                if(leftCount >= 9 || blockCheck.className != "currentBlockLocation"){
-                    continue;
-                }
-                else if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor){
+                var blockCheckLeftColor = getComputedStyle(blockCheckLeft).backgroundColor;
+                if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
+                    if(blockCheckLeftColor != defalutColor || blockCheckLeft.className == "currentBlockLocation" || _1minusJ == 1){
+                        blockMoveOK = false;
+                    }
+                    else{
+                        blockMoveOK = true;
+                    }
+                    if(blockMoveOK){
+                        blockMoveOK = false;
+                        BlockMove(keyEvent);
+                    }
+                    /*
                     switch(leftCount){
                         case -12:
                         case -11:
@@ -466,10 +503,21 @@ document.addEventListener('keydown', (event) => {
                             break;
                         default:
                             break;
-                    }
+                    }*/
                 }
                 else if(_nowBlockColor == _lblock && blockCheckColor == _nowBlockColor){
-                    switch(leftCount){
+                    if(blockCheckLeftColor != defalutColor || blockCheckLeft.className == "currentBlockLocation" || blockCheckLeft.id == "_"+i+"-1"){
+                        blockMoveOK = false;
+                    }
+                    else{
+                        blockMoveOK = true;
+                    }
+                    if(blockMoveOK){
+                        console.log(blockCheckLeft.id);
+                        blockMoveOK = false;
+                        BlockMove(keyEvent);
+                    }
+                    /*switch(leftCount){
                         case -12:
                         case -11:
                         case -10:
@@ -647,7 +695,7 @@ document.addEventListener('keydown', (event) => {
                             break;
                         default:
                             break;
-                    }
+                    }*/
                 }
                 else if(_nowBlockColor == _jblock && blockCheckColor == _nowBlockColor){
                     switch(leftCount){
@@ -831,7 +879,17 @@ document.addEventListener('keydown', (event) => {
                     }
                 }
                 else if(_nowBlockColor == _iblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
-                    switch(leftCount){
+                    if(blockCheckLeftColor != defalutColor || blockCheckLeft.className == "currentBlockLocation" || _1minusJ == 0){
+                        blockMoveOK = false;
+                    }
+                    else{
+                        blockMoveOK = true;
+                    }
+                    if(blockMoveOK){
+                        blockMoveOK = false;
+                        BlockMove(keyEvent);
+                    }
+                    /*switch(leftCount){
                         case -12:
                         case -11:
                         case -10:
@@ -957,7 +1015,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-5").setAttribute("class", "");
                             }
                             break;
-                    }
+                    }*/
                 }
                 else if(_nowBlockColor == _oblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(leftCount){
@@ -1410,15 +1468,26 @@ document.addEventListener('keydown', (event) => {
         }
     }
     else if(keyCode == "ArrowRight" && gameover != 1){
+        keyEvent = "right";
         for(var i = 0; i < 20; i++){
             for(var j = 10; j >= 0; j--){
+                var _1plusJ = j + 1;
                 var blockCheck = document.getElementById("_"+i+"-"+j);
                 var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
-                if(rightCount >= 12 && blockCheck.className != "currentBlockLocation"){
-                    continue;
-                }
-                else if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
-                    switch(rightCount){
+                var blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
+                var blockCheckRightColor = getComputedStyle(blockCheckRight).backgroundColor;
+                if(_nowBlockColor == _tblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
+                    if(blockCheckRightColor != defalutColor || blockCheckRight.className == "currentBlockLocation" || _1plusJ >= 10){
+                        blockMoveOK = false;
+                    }
+                    else{
+                        blockMoveOK = true;
+                    }
+                    if(blockMoveOK){
+                        blockMoveOK = false;
+                        BlockMove(keyEvent);
+                    }
+                    /*switch(rightCount){
                         case -9:
                         case -8:
                         case -7:
@@ -1596,7 +1665,7 @@ document.addEventListener('keydown', (event) => {
                             break;
                         default:
                             break;
-                    }
+                    }*/
                 }
                 else if(_nowBlockColor == _lblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
                     switch(rightCount){
@@ -1960,7 +2029,17 @@ document.addEventListener('keydown', (event) => {
                     }
                 }
                 else if(_nowBlockColor == _iblock && blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
-                    switch(rightCount){
+                    if(blockCheckRightColor != defalutColor || blockCheckRight.className == "currentBlockLocation" || _1plusJ >= 11){
+                        blockMoveOK = false;
+                    }
+                    else{
+                        blockMoveOK = true;
+                    }
+                    if(blockMoveOK){
+                        blockMoveOK = false;
+                        BlockMove(keyEvent);
+                    }
+                    /*switch(rightCount){
                         case -9:
                         case -8:
                         case -7:
@@ -2069,7 +2148,7 @@ document.addEventListener('keydown', (event) => {
                                 document.getElementById("_"+i+"-10").setAttribute("class", "currentBlockLocation");
                             }
                             break;
-                    }
+                    }*/
                 }
                 if(rightCount >= 8 && blockCheck.className != "currentBlockLocation"){
                     continue;
@@ -2521,13 +2600,15 @@ document.addEventListener('keydown', (event) => {
             }
         }
     }
-    /*
+    
     else if(keyCode == "ArrowDown"){
         var cnt = 0;
         for(var i = 20; i > 0; i--){
             for(var j = 0; j <= 10; j++){
+                keyEvent = "down";
                 var blockCheck = document.getElementById("_"+i+"-"+j);
                 var blockCheckColor = getComputedStyle(blockCheck).backgroundColor
+                /*
                 var belowI = i + 1;
                 if(blockCheckColor == _nowBlockColor){
                     cnt++;
@@ -2540,10 +2621,109 @@ document.addEventListener('keydown', (event) => {
                     nowBlockLeft.setAttribute("class", "currentBlockLocation");
                     blockCheck.setAttribute("class", "");
                     Next++;
-                }
+                }*/
             }
         }
-    }*/
+    }
+    else if(keyCode == "z" || keyCode == "Z"  && gameover != 1){
+        keyEvent = "leftTrun";
+        for(var i = 0; i <= 20; i++){
+            for(var j = 1; j <= 10; j++){
+                var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                /*
+                if(_nowBlockColor == _iblock && blockCheck.className == "currentBlockLocation" && blockCheckColor == _nowBlockColor){
+                    var _1minusI = i - 1;
+                    var _1plusI = i + 1;
+                    var _2plusI = i + 2;
+                    var _3plusI = i + 3;
+                    switch(leftCount){
+                        case -12:
+                        case -11:
+                        case -10:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        case -9:
+                        case -8:
+                        case -7:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        case -6:
+                        case -5:
+                        case -4:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        case -3:
+                        case -2:
+                        case -1:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        case 0:
+                        case 1:
+                        case 2:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            if(i < 3){
+                                document.getElementById("_"+1+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+2+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+3+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+4+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-5").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-4").setAttribute("class", "");
+                                document.getElementById("_"+i+"-5").setAttribute("class", "");
+                                document.getElementById("_"+i+"-6").setAttribute("class", "");
+                                document.getElementById("_"+i+"-7").setAttribute("class", "");
+                                document.getElementById("_"+1+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+2+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+3+"-5").setAttribute("class", "currentBlockLocation");
+                                document.getElementById("_"+4+"-5").setAttribute("class", "currentBlockLocation");
+                            }   
+                            else{
+                                document.getElementById("_"+0+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+1+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+2+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+3+"-5").style.backgroundColor = _nowBlockColor;
+                                document.getElementById("_"+i+"-4").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-6").style.backgroundColor = defalutColor;
+                                document.getElementById("_"+i+"-7").style.backgroundColor = defalutColor;
+                            }
+                            break;
+                        case 3:
+                        case 4:
+                        case 5:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        case 6:
+                        case 7:
+                        case 8:
+                            leftTurnCount += 1;
+                            rightTurnCount -= 1;
+                            break;
+                        default:
+                            break;
+                    }
+                }*/
+            }
+        }
+    }
+    else if(keyCode == "x" || keyCode == "X"  && gameover != 1){
+        keyEvent = "rightTrun";
+        for(var i = 0; i <= 20; i++){
+            for(var j = 1; j <= 10; j++){
+                var blockCheck = document.getElementById("_"+i+"-"+j);
+                var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                
+            }
+        }
+    }
 })
 
 function ClassInitialization() {
@@ -2617,5 +2797,143 @@ function LineClear(){
 }
 
 function BlockDown(lineclear){ //클리어된 라인위에있는 모든 블록을 내리는 함수
-    
+    var linechange = 0;
+    if(lineclear >= 1){
+        linechange = lineclear - 1;
+    }
+    else return null;
+
+    for(var a = lineclear; a > 1; a--){
+        var _i_1 = document.getElementById("_"+a+"-1");
+        var _i_2 = document.getElementById("_"+a+"-2");
+        var _i_3 = document.getElementById("_"+a+"-3");
+        var _i_4 = document.getElementById("_"+a+"-4");
+        var _i_5 = document.getElementById("_"+a+"-5");
+        var _i_6 = document.getElementById("_"+a+"-6");
+        var _i_7 = document.getElementById("_"+a+"-7");
+        var _i_8 = document.getElementById("_"+a+"-8");
+        var _i_9 = document.getElementById("_"+a+"-9");
+        var _i_10 = document.getElementById("_"+a+"-10");
+        var j = a - 1 ;
+        var _j_1 = document.getElementById("_"+j+"-1");
+        var _j_2 = document.getElementById("_"+j+"-2");
+        var _j_3 = document.getElementById("_"+j+"-3");
+        var _j_4 = document.getElementById("_"+j+"-4");
+        var _j_5 = document.getElementById("_"+j+"-5");
+        var _j_6 = document.getElementById("_"+j+"-6");
+        var _j_7 = document.getElementById("_"+j+"-7");
+        var _j_8 = document.getElementById("_"+j+"-8");
+        var _j_9 = document.getElementById("_"+j+"-9");
+        var _j_10 = document.getElementById("_"+j+"-10");
+
+        _i_1.style.backgroundColor = _j_1.style.backgroundColor;
+        _i_2.style.backgroundColor = _j_2.style.backgroundColor;
+        _i_3.style.backgroundColor = _j_3.style.backgroundColor;
+        _i_4.style.backgroundColor = _j_4.style.backgroundColor;
+        _i_5.style.backgroundColor = _j_5.style.backgroundColor;
+        _i_6.style.backgroundColor = _j_6.style.backgroundColor;
+        _i_7.style.backgroundColor = _j_7.style.backgroundColor;
+        _i_8.style.backgroundColor = _j_8.style.backgroundColor;
+        _i_9.style.backgroundColor = _j_9.style.backgroundColor;
+        _i_10.style.backgroundColor = _j_10.style.backgroundColor;
+    }
+}
+
+function BlockMove(keyEvent){
+    switch(keyEvent){
+        case "left":
+            for(var i = 0; i <= 20; i++){
+                for(var j = 1; j <= 10; j++){
+                    var _1minusJ = j - 1;
+                    var blockCheck = document.getElementById("_"+i+"-"+j);
+                    var blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
+                    var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                    if(blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
+                        blockCheckLeft.style.backgroundColor = _nowBlockColor;
+                        blockCheckLeft.setAttribute("class","currentBlockLocation");
+                        blockCheck.style.backgroundColor = defalutColor;
+                        blockCheck.setAttribute("class","");
+                    }
+                }
+            }
+            break;
+        case "right":
+            for(var i = 20; i >= 0; i--){
+                for(var j = 10; j > 0; j--){
+                    var _1plusJ = j + 1;
+                    var blockCheck = document.getElementById("_"+i+"-"+j);
+                    var blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
+                    var blockCheckColor = getComputedStyle(blockCheck).backgroundColor;
+                    if(blockCheckColor == _nowBlockColor && blockCheck.className == "currentBlockLocation"){
+                        blockCheckRight.style.backgroundColor = _nowBlockColor;
+                        blockCheckRight.setAttribute("class","currentBlockLocation");
+                        blockCheck.style.backgroundColor = defalutColor;
+                        blockCheck.setAttribute("class","");
+                    }
+                }
+            }
+            break;
+        case "down":
+            switch(_nowBlockColor){
+                case _iblock:
+                    break
+                case _jblock:
+                    break
+                case _lblock:
+                    break
+                case _zblock:
+                    break
+                case _sblock:
+                    break
+                case _oblock:
+                    break
+                case _tblock:
+                    break
+                default:
+                    break;
+            }
+            break;
+        case "leftTrun":
+            switch(_nowBlockColor){
+                case _iblock:
+                    break
+                case _jblock:
+                    break
+                case _lblock:
+                    break
+                case _zblock:
+                    break
+                case _sblock:
+                    break
+                case _oblock:
+                    break
+                case _tblock:
+                    break
+                default:
+                    break;
+            }
+            break;
+        case "rightTrun":
+            switch(_nowBlockColor){
+                case _iblock:
+                    break
+                case _jblock:
+                    break
+                case _lblock:
+                    break
+                case _zblock:
+                    break
+                case _sblock:
+                    break
+                case _oblock:
+                    break
+                case _tblock:
+                    break
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
 }
