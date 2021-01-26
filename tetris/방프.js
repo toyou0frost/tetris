@@ -154,7 +154,7 @@ setInterval(function BlockFall() {
         LineClear();
         BlockCreate(RdBlock);
     }
-}, 500) 
+}, 3000) 
 
 var test = 1;
 function BlockCreate(RdBlock){
@@ -167,7 +167,7 @@ function BlockCreate(RdBlock){
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
         //switch(RdBlock[blockCreateI]){
-        switch(4){
+        switch(2){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -266,7 +266,7 @@ function BlockCreate(RdBlock){
                     _0_6.style.backgroundColor = _sblock;
                     _1_4.style.backgroundColor = _sblock;
                     _1_5.style.backgroundColor = _sblock;
-                    _0_6.style.color = centerColor;
+                    _0_5.style.color = centerColor;
                 }
                 _nowBlockColor = _sblock;
                 blockCreateI++
@@ -2671,7 +2671,7 @@ document.addEventListener('keydown', (event) => {
         }
     }
     else if(keyCode == "z" || keyCode == "Z"  && gameover != 1){
-        keyEvent = "leftTrun";
+        keyEvent = "leftTurn";
         BlockMove(keyEvent);
         return;
         for(var i = 0; i <= 20; i++){
@@ -2762,7 +2762,7 @@ document.addEventListener('keydown', (event) => {
         }
     }
     else if(keyCode == "x" || keyCode == "X" || keyCode == "ArrowUp" && gameover != 1){
-        keyEvent = "rightTrun";
+        keyEvent = "rightTurn";
         BlockMove(keyEvent);
         return;
         for(var i = 0; i <= 20; i++){
@@ -3069,7 +3069,7 @@ function BlockMove(keyEvent){
             }
             lastOrder = "right";
             break;
-        case "leftTrun":
+        case "leftTurn":
             canMove = true;
             switch(_nowBlockColor){
                 case _iblock: 
@@ -3077,10 +3077,280 @@ function BlockMove(keyEvent){
                 case _jblock:
                     break;
                 case _lblock:
+                    canTurn = true;
+                    for(var i = 1; i <= 19; i++){
+                        for(var j = 2; j <= 9; j++){
+                            blockCheck = document.getElementById("_"+i+"-"+j); 
+                            blockCheckColor = getComputedStyle(blockCheck).color;
+                            if(blockCheckColor == centerColor){
+                                switch(leftTurnCount){
+                                    case 0:
+                                        if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 1:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 3:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    if(canTurn){
+                        for(var i = 1;  i <= 19; i++){
+                            for(var j = 2; j <= 9; j++){
+                                blockCheck = document.getElementById("_"+i+"-"+j);
+                                blockCheckColor = getComputedStyle(blockCheck).color;
+                                //console.log(leftTurnCount);
+                                if(blockCheckColor == centerColor){
+                                    //console.log(leftTurnCount);
+                                    switch(leftTurnCount){
+                                        case 0:
+                                            //console.log("a");
+                                            ChangeColor(i,j,"right","rightUp", "left", "rightDown", null, null);
+                                            break;
+                                        case 1:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"down","rightDown", "up", "leftDown", null, null); 
+                                                leftTurnCount = 3;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"up","leftUp", "down", "rightUp", null, null);
+                                            }
+                                            break;
+                                        case 2:
+                                            ChangeColor(i,j,"left","leftDown", "right", "leftUp", null, null); 
+                                            break;
+                                        case 3:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"up","leftUp", "down", "rightUp", null, null);
+                                                leftTurnCount = 1;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"down","rightDown", "up", "leftDown", null, null); 
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        leftTurnCount++;
+                        leftTurnCount%=4;
+                    }
                     break;
                 case _zblock:
+                    canTurn = true;
+                    for(var i = 1; i <= 19; i++){
+                        for(var j = 2; j <= 9; j++){
+                            blockCheck = document.getElementById("_"+i+"-"+j); 
+                            blockCheckColor = getComputedStyle(blockCheck).color;
+                            if(blockCheckColor == centerColor){
+                                switch(leftTurnCount){
+                                    case 0:
+                                        if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 1:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 3:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    if(canTurn){
+                        for(var i = 1;  i <= 19; i++){
+                            for(var j = 2; j <= 9; j++){
+                                blockCheck = document.getElementById("_"+i+"-"+j);
+                                blockCheckColor = getComputedStyle(blockCheck).color;
+                                //console.log(leftTurnCount);
+                                if(blockCheckColor == centerColor){
+                                    //console.log(leftTurnCount);
+                                    switch(leftTurnCount){
+                                        case 0:
+                                            //console.log("a");
+                                            ChangeColor(i,j,"right","rightUp", "left", "rightDown", null, null);
+                                            break;
+                                        case 1:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"down","rightDown", "up", "leftDown", null, null); 
+                                                leftTurnCount = 3;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"up","leftUp", "down", "rightUp", null, null);
+                                            }
+                                            break;
+                                        case 2:
+                                            ChangeColor(i,j,"left","leftDown", "right", "leftUp", null, null); 
+                                            break;
+                                        case 3:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"up","leftUp", "down", "rightUp", null, null);
+                                                leftTurnCount = 1;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"down","rightDown", "up", "leftDown", null, null); 
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        leftTurnCount++;
+                        leftTurnCount%=4;
+                    }
                     break;
                 case _sblock:
+                    canTurn = true;
+                    for(var i = 1; i <= 19; i++){
+                        for(var j = 2; j <= 9; j++){
+                            blockCheck = document.getElementById("_"+i+"-"+j); 
+                            blockCheckColor = getComputedStyle(blockCheck).color;
+                            if(blockCheckColor == centerColor){
+                                switch(leftTurnCount){
+                                    case 0:
+                                        if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 1:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 3:
+                                        if(lastOrder == "rightTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    if(canTurn){
+                        for(var i = 1;  i <= 19; i++){
+                            for(var j = 2; j <= 9; j++){
+                                blockCheck = document.getElementById("_"+i+"-"+j);
+                                blockCheckColor = getComputedStyle(blockCheck).color;
+                                //console.log(leftTurnCount);
+                                if(blockCheckColor == centerColor){
+                                    console.log(leftTurnCount);
+                                    switch(leftTurnCount){
+                                        case 0:
+                                            console.log("a");
+                                            ChangeColor(i,j,"up","rightDown", "down", "leftDown", null, null);
+                                            break;
+                                        case 1:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"right","leftDown", "left", "leftUp", null, null); 
+                                                leftTurnCount = 3;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"left","rightUp", "right", "rightDown", null, null);
+                                            }
+                                            break;
+                                        case 2:
+                                            ChangeColor(i,j,"down","leftUp", "up", "rightUp", null, null); 
+                                            break;
+                                        case 3:
+                                            if(lastOrder == "rightTurn"){
+                                                ChangeColor(i,j,"left","rightUp", "right", "rightDown", null, null);
+                                                leftTurnCount = 1;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"right","leftDown", "left", "leftUp", null, null); 
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        leftTurnCount++;
+                        leftTurnCount%=4;
+                    }
                     break;
                 case _tblock:
                     canTurn = true;
@@ -3097,7 +3367,7 @@ function BlockMove(keyEvent){
                                         }
                                         break;
                                     case 1:
-                                        if(lastOrder == "rightTrun"){
+                                        if(lastOrder == "rightTurn"){
                                             if(ChangeColor(i,j,null,null,null,null,"left",null) != defalutColor){
                                                 canTurn = false;
                                             }
@@ -3114,7 +3384,7 @@ function BlockMove(keyEvent){
                                         }
                                         break;
                                     case 3:
-                                        if(lastOrder == "rightTrun"){
+                                        if(lastOrder == "rightTurn"){
                                             if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor){
                                                 canTurn = false;
                                             }
@@ -3145,7 +3415,7 @@ function BlockMove(keyEvent){
                                             ChangeColor(i,j,"down", null ,"right", null, null, null);
                                             break;
                                         case 1:
-                                            if(lastOrder == "rightTrun"){
+                                            if(lastOrder == "rightTurn"){
                                                 ChangeColor(i,j,"left", null,"down", null, null, null); 
                                                 leftTurnCount = 3;
                                             }
@@ -3157,7 +3427,7 @@ function BlockMove(keyEvent){
                                             ChangeColor(i,j,"up", null,"left", null, null, null); 
                                             break;
                                         case 3:
-                                            if(lastOrder == "rightTrun"){
+                                            if(lastOrder == "rightTurn"){
                                                 ChangeColor(i,j,"right", null,"up", null, null, null); 
                                                 leftTurnCount = 1;
                                             }
@@ -3178,9 +3448,9 @@ function BlockMove(keyEvent){
                 default:
                     break;
             }
-            lastOrder = "leftTrun";
+            lastOrder = "leftTurn";
             break;
-        case "rightTrun":
+        case "rightTurn":
             canMove = true;
                 switch(_nowBlockColor){
                     case _iblock: 
@@ -3189,9 +3459,196 @@ function BlockMove(keyEvent){
                         break;
                     case _lblock:
                         break;
-                    case _zblock:
+                    case _zblock:canTurn = true;
+                    for(var i = 1; i <= 19; i++){
+                        for(var j = 2; j <= 9; j++){
+                            blockCheck = document.getElementById("_"+i+"-"+j); 
+                            blockCheckColor = getComputedStyle(blockCheck).color;
+                            console.log(leftTurnCount);
+                            if(blockCheckColor == centerColor){
+                                switch(leftTurnCount){
+                                    case 0:
+                                        if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                            canTurn = false;
+                                        }
+                                        break;
+                                    case 1:
+                                        if(lastOrder == "leftTurn"){
+                                            //console.log("d");
+                                            if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;  
+                                    case 2:
+                                        if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                            canTurn = false;
+                                            console.log("a");
+                                        }
+                                        break;
+                                    case 3:
+                                        if(lastOrder == "leftTurn"){
+                                            if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        else{
+                                            if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                    console.log(canTurn);
+                    if(canTurn){
+                        for(var i = 1;  i <= 19; i++){
+                            for(var j = 2; j <= 9; j++){
+                                blockCheck = document.getElementById("_"+i+"-"+j);
+                                blockCheckColor = getComputedStyle(blockCheck).color;
+                                //console.log(leftTurnCount);
+                                if(blockCheckColor == centerColor){
+                                    console.log(leftTurnCount);
+                                    switch(leftTurnCount){
+                                        case 0:
+                                            console.log("a");
+                                            ChangeColor(i,j,"up","leftDown", "down", "rightDown", null, null);
+                                            break;
+                                        case 1:
+                                            if(lastOrder == "leftTurn"){
+                                                ChangeColor(i,j,"left","rightDown", "right", "rightUp", null, null);
+                                                leftTurnCount = 3;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"right","leftUp", "left", "leftDown", null, null); 
+                                            }
+                                            break;
+                                        case 2:
+                                            ChangeColor(i,j,"down","rightUp", "up", "leftUp", null, null); 
+                                            break;
+                                        case 3:
+                                            if(lastOrder == "leftTurn"){
+                                                ChangeColor(i,j,"right","leftUp", "left", "leftDown", null, null); 
+                                                leftTurnCount = 1;
+                                            }
+                                            else{
+                                                ChangeColor(i,j,"left","rightDown", "right", "rightUp", null, null);
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        leftTurnCount++;
+                        leftTurnCount%=4;
+                    }
                         break;
                     case _sblock:
+                        canTurn = true;
+                        for(var i = 1; i <= 19; i++){
+                            for(var j = 2; j <= 9; j++){
+                                blockCheck = document.getElementById("_"+i+"-"+j); 
+                                blockCheckColor = getComputedStyle(blockCheck).color;
+                                console.log(leftTurnCount);
+                                if(blockCheckColor == centerColor){
+                                    switch(leftTurnCount){
+                                        case 0:
+                                            if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
+                                                canTurn = false;
+                                            }
+                                            break;
+                                        case 1:
+                                            if(lastOrder == "leftTurn"){
+                                                //console.log("d");
+                                                if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                                    canTurn = false;
+                                                }
+                                            }
+                                            else{
+                                                if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                                    canTurn = false;
+                                                }
+                                            }
+                                            break;  
+                                        case 2:
+                                            if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
+                                                canTurn = false;
+                                                console.log("a");
+                                            }
+                                            break;
+                                        case 3:
+                                            if(lastOrder == "leftTurn"){
+                                                if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
+                                                    canTurn = false;
+                                                }
+                                            }
+                                            else{
+                                                if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
+                                                    canTurn = false;
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        console.log(canTurn);
+                        if(canTurn){
+                            for(var i = 1;  i <= 19; i++){
+                                for(var j = 2; j <= 9; j++){
+                                    blockCheck = document.getElementById("_"+i+"-"+j);
+                                    blockCheckColor = getComputedStyle(blockCheck).color;
+                                    //console.log(leftTurnCount);
+                                    if(blockCheckColor == centerColor){
+                                        console.log(leftTurnCount);
+                                        switch(leftTurnCount){
+                                            case 0:
+                                                console.log("a");
+                                                ChangeColor(i,j,"left","leftUp", "right", "leftDown", null, null);
+                                                break;
+                                            case 1:
+                                                if(lastOrder == "leftTurn"){
+                                                    ChangeColor(i,j,"down","leftDown", "up", "rightDown", null, null);
+                                                    leftTurnCount = 3;
+                                                }
+                                                else{
+                                                    ChangeColor(i,j,"up","rightUp", "down", "leftUp", null, null); 
+                                                }
+                                                break;
+                                            case 2:
+                                                ChangeColor(i,j,"right","rightDown", "left", "rightUp", null, null); 
+                                                break;
+                                            case 3:
+                                                if(lastOrder == "leftTurn"){
+                                                    ChangeColor(i,j,"up","rightUp", "down", "leftUp", null, null); 
+                                                    leftTurnCount = 1;
+                                                }
+                                                else{
+                                                    ChangeColor(i,j,"down","leftDown", "up", "rightDown", null, null);
+                                                }
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            leftTurnCount++;
+                            leftTurnCount%=4;
+                        }
                         break;
                     case _tblock:
                         canTurn = true;
@@ -3208,7 +3665,7 @@ function BlockMove(keyEvent){
                                             }
                                             break;
                                         case 1:
-                                            if(lastOrder == "leftTrun"){
+                                            if(lastOrder == "leftTurn"){
                                                 if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor){
                                                     canTurn = false;
                                                 }
@@ -3225,7 +3682,7 @@ function BlockMove(keyEvent){
                                             }
                                             break;
                                         case 3:
-                                            if(lastOrder == "leftTrun"){
+                                            if(lastOrder == "leftTurn"){
                                                 if(ChangeColor(i,j,null,null,null,null,"left",null) != defalutColor){
                                                     canTurn = false;
                                                 }
@@ -3255,7 +3712,7 @@ function BlockMove(keyEvent){
                                                 ChangeColor(i,j,"down", null,"left", null, null, null); 
                                                 break;
                                             case 1:
-                                                if(lastOrder == "leftTrun"){
+                                                if(lastOrder == "leftTurn"){
                                                     ChangeColor(i,j,"right", null ,"down", null, null, null);
                                                     leftTurnCount = 3;
                                                 }
@@ -3267,7 +3724,7 @@ function BlockMove(keyEvent){
                                                 ChangeColor(i,j,"up", null,"right", null, null, null); 
                                                 break;
                                             case 3:
-                                                if(lastOrder == "leftTrun"){
+                                                if(lastOrder == "leftTurn"){
                                                     ChangeColor(i,j,"left", null,"up", null, null, null); 
                                                     leftTurnCount = 1;
                                                 }
@@ -3288,7 +3745,7 @@ function BlockMove(keyEvent){
                     default:
                         break;
                 }
-            lastOrder = "rightTrun";
+            lastOrder = "rightTurn";
             break;
         default:
             break;
@@ -3306,14 +3763,14 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
     var blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
     var blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
     var blockCheckUp = document.getElementById("_"+_1minusI+"-"+j);
-    var leftUpDiagonal = document.getElementById("_"+_1plusI+"-"+_1minusJ);
-    var rightUpDiagonal = document.getElementById("_"+_1plusI+"-"+_1plusJ);
-    var leftDownDiagonal = document.getElementById("_"+_1minusI+"-"+_1minusJ);
-    var rightDownDiagonal = document.getElementById("_"+_1minusI+"-"+_1plusJ);
-    var rightUpDiagonalColor = getComputedStyle(rightUpDiagonal).backgroundColor;
-    var leftUpDiagonalColor = getComputedStyle(leftUpDiagonal).backgroundColor;
-    var rightDownDiagonalColor = getComputedStyle(rightDownDiagonal).backgroundColor;
-    var leftDownDiagonalColor = getComputedStyle(leftDownDiagonal).backgroundColor;
+    var leftUp = document.getElementById("_"+_1minusI+"-"+_1minusJ);
+    var rightUp = document.getElementById("_"+_1minusI+"-"+_1plusJ);
+    var leftDown = document.getElementById("_"+_1plusI+"-"+_1minusJ);
+    var rightDown = document.getElementById("_"+_1plusI+"-"+_1plusJ);
+    var rightUpColor = getComputedStyle(rightUp).backgroundColor;
+    var leftUpColor = getComputedStyle(leftUp).backgroundColor;
+    var rightDownColor = getComputedStyle(rightDown).backgroundColor;
+    var leftDownColor = getComputedStyle(leftDown).backgroundColor;
     var blockCheckColor = getComputedStyle(blockCheck).color;
     var blockCheckDownColor = getComputedStyle(blockCheckDown).backgroundColor;
     var blockCheckUpColor = getComputedStyle(blockCheckUp).backgroundColor;
@@ -3332,6 +3789,18 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
             break;
         case "up":
             return blockCheckUpColor;
+            break;
+        case "leftUp":
+            return leftUpColor;
+            break;
+        case "leftDown":
+            return leftDownColor;
+            break;
+        case "rightUp":
+            return rightUpColor;
+            break;
+        case "rightDown":
+            return rightDownColor;
             break;
         default:
             break;
@@ -3353,6 +3822,58 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
             blockCheckUp.style.background = _nowBlockColor;
             blockCheckUp.setAttribute("class", "currentBlockLocation");
             break;
+        case "leftUp":
+            leftUp.style.background = _nowBlockColor;
+            leftUp.setAttribute("class", "currentBlockLocation");
+            break;
+        case "leftDown":
+            leftDown.style.background = _nowBlockColor;
+            leftDown.setAttribute("class", "currentBlockLocation");
+            break;
+        case "rightUp":
+            rightUp.style.background = _nowBlockColor;
+            rightUp.setAttribute("class", "currentBlockLocation");
+            break;
+        case "rightDown":
+            rightDown.style.background = _nowBlockColor;
+            rightDown.setAttribute("class", "currentBlockLocation");
+            break;
+        default:
+            break;
+    }
+    switch(_2fill){
+        case "left" :
+            blockCheckLeft.style.background = _nowBlockColor;
+            blockCheckLeft.setAttribute("class", "currentBlockLocation");
+            break;
+        case "right" :
+            blockCheckRight.style.background = _nowBlockColor;
+            blockCheckRight.setAttribute("class", "currentBlockLocation");
+            break;
+        case "down" :
+            blockCheckDown.style.background = _nowBlockColor;
+            blockCheckDown.setAttribute("class", "currentBlockLocation");
+            break;
+        case "up":
+            blockCheckUp.style.background = _nowBlockColor;
+            blockCheckUp.setAttribute("class", "currentBlockLocation");
+            break;
+        case "leftUp":
+            leftUp.style.background = _nowBlockColor;
+            leftUp.setAttribute("class", "currentBlockLocation");
+            break;
+        case "leftDown":
+            leftDown.style.background = _nowBlockColor;
+            leftDown.setAttribute("class", "currentBlockLocation");
+            break;
+        case "rightUp":
+            rightUp.style.background = _nowBlockColor;
+            rightUp.setAttribute("class", "currentBlockLocation");
+            break;
+        case "rightDown":
+            rightDown.style.background = _nowBlockColor;
+            rightDown.setAttribute("class", "currentBlockLocation");
+            break;
         default:
             break;
     }
@@ -3372,6 +3893,58 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
         case "up":
             blockCheckUp.style.background = defalutColor;
             blockCheckUp.setAttribute("class", "");
+            break;
+        case "leftUp":
+            leftUp.style.background = defalutColor;
+            leftUp.setAttribute("class", "");
+            break;
+        case "leftDown":
+            leftDown.style.background = defalutColor;
+            leftDown.setAttribute("class", "");
+            break;
+        case "rightUp":
+            rightUp.style.background = defalutColor;
+            rightUp.setAttribute("class", "");
+            break;
+        case "rightDown":
+            rightDown.style.background = defalutColor;
+            rightDown.setAttribute("class", "");
+            break;
+        default:
+            break;
+    }
+    switch(_2blank){
+        case "left" :
+            blockCheckLeft.style.background = defalutColor;
+            blockCheckLeft.setAttribute("class", "");
+            break;
+        case "right" :
+            blockCheckRight.style.background = defalutColor;
+            blockCheckRight.setAttribute("class", "");
+            break;
+        case "down" :
+            blockCheckDown.style.background = defalutColor;
+            blockCheckDown.setAttribute("class", "");
+            break;
+        case "up":
+            blockCheckUp.style.background = defalutColor;
+            blockCheckUp.setAttribute("class", "");
+            break;
+        case "leftUp":
+            leftUp.style.background = defalutColor;
+            leftUp.setAttribute("class", "");
+            break;
+        case "leftDown":
+            leftDown.style.background = defalutColor;
+            leftDown.setAttribute("class", "");
+            break;
+        case "rightUp":
+            rightUp.style.background = defalutColor;
+            rightUp.setAttribute("class", "");
+            break;
+        case "rightDown":
+            rightDown.style.background = defalutColor;
+            rightDown.setAttribute("class", "");
             break;
         default:
             break;
