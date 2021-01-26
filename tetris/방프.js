@@ -26,6 +26,9 @@ var quit = false;
 var spin = false;
 var canTurn = false;
 var lastOrder;
+var find = false;
+var combo = 0;
+var lineClearCheck = false;
 
 onload = function(){
     ClassInitialization();
@@ -166,8 +169,8 @@ function BlockCreate(RdBlock){
     var _1_5 = document.getElementById("_1-5"); 
     var _1_6 = document.getElementById("_1-6");
     for(blockCreateI; blockCreateI < 7;){
-        //switch(RdBlock[blockCreateI]){
-        switch(0){
+        switch(RdBlock[blockCreateI]){
+        //switch(4){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -326,7 +329,12 @@ function BlockCreate(RdBlock){
 document.addEventListener('keydown', (event) => {
     const keyCode = event.key;
     //console.log(keyCode);
-    if(keyCode == "ArrowLeft" && gameover != 1){
+    if(keyCode == " "){
+        keyEvent = "space"
+        quit = false;
+        BlockMove(keyEvent);
+    }
+    else if(keyCode == "ArrowLeft" && gameover != 1){
         keyEvent = "left";
         quit = false;
         BlockMove(keyEvent);
@@ -2646,6 +2654,7 @@ document.addEventListener('keydown', (event) => {
     
     else if(keyCode == "ArrowDown"){
         keyEvent = "down";
+        quit = false;
         BlockMove(keyEvent);
         return;
         var cnt = 0;
@@ -2672,6 +2681,7 @@ document.addEventListener('keydown', (event) => {
     }
     else if(keyCode == "z" || keyCode == "Z"  && gameover != 1){
         keyEvent = "leftTurn";
+        quit = false;
         BlockMove(keyEvent);
         return;
         for(var i = 0; i <= 20; i++){
@@ -2763,6 +2773,7 @@ document.addEventListener('keydown', (event) => {
     }
     else if(keyCode == "x" || keyCode == "X" || keyCode == "ArrowUp" && gameover != 1){
         keyEvent = "rightTurn";
+        quit = false;
         BlockMove(keyEvent);
         return;
         for(var i = 0; i <= 20; i++){
@@ -2804,6 +2815,7 @@ function GameOver(){
 }
 
 function LineClear(){
+    lineClearCheck = false;
     var count = 0;
     var lineclear = 0;
     for(var i = 20; i >= 0; i--){
@@ -2842,9 +2854,15 @@ function LineClear(){
             count = 1;
         }
         if(count == 1){
+            lineClearCheck = true;
+            combo++;
+            console.log(combo+"combo");
             BlockDown(lineclear);
             count = 0;
         }
+    }
+    if(!lineClearCheck){
+        combo = 0;
     }
 }
 
@@ -3078,11 +3096,13 @@ function BlockMove(keyEvent){
             switch(_nowBlockColor){
                 case _iblock: 
                 canTurn = true;
+                find = false;
                 for(var i = 2; i <= 19; i++){
                     for(var j = 2; j <= 8; j++){
                         blockCheck = document.getElementById("_"+i+"-"+j); 
                         blockCheckColor = getComputedStyle(blockCheck).color;
                         if(blockCheckColor == centerColor){
+                            find = true;
                             switch(leftTurnCount){
                                 case 0:
                                 case 2:
@@ -3108,6 +3128,9 @@ function BlockMove(keyEvent){
                             }
                         }
                     }
+                }
+                if(!find){
+                    canTurn = false;
                 }
                 if(canTurn){
                     for(var i = 2;  i <= 19; i++){
@@ -3148,11 +3171,13 @@ function BlockMove(keyEvent){
                     break;
                 case _jblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1; i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
@@ -3193,6 +3218,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
@@ -3246,11 +3274,13 @@ function BlockMove(keyEvent){
                     break;
                 case _lblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1; i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor){
@@ -3291,6 +3321,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
@@ -3344,11 +3377,13 @@ function BlockMove(keyEvent){
                     break;
                 case _zblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1; i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
@@ -3389,6 +3424,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
@@ -3436,11 +3474,13 @@ function BlockMove(keyEvent){
                     break;
                 case _sblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1; i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
@@ -3481,6 +3521,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
@@ -3528,11 +3571,13 @@ function BlockMove(keyEvent){
                     break;
                 case _tblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1;  i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color; 
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 //console.log(leftTurnCount);
                                 switch(leftTurnCount){
                                     case 0:
@@ -3574,6 +3619,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     //console.log(canTurn);
                     if(canTurn){
@@ -3620,7 +3668,7 @@ function BlockMove(keyEvent){
                     }
                     break
                 default:
-                    break;
+                    return;
             }
             lastOrder = "leftTurn";
             break;
@@ -3629,11 +3677,13 @@ function BlockMove(keyEvent){
                 switch(_nowBlockColor){
                     case _iblock: 
                     canTurn = true;
+                    find = false;
                     for(var i = 2; i <= 19; i++){
                         for(var j = 2; j <= 8; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                     case 2:
@@ -3659,6 +3709,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     if(canTurn){
                         for(var i = 2;  i <= 19; i++){
@@ -3699,12 +3752,14 @@ function BlockMove(keyEvent){
                         break;
                     case _jblock:
                         canTurn = true;
+                        find = false;
                         for(var i = 1; i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
+                                    find = true;
                                     switch(leftTurnCount){
                                         case 0:
                                             if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
@@ -3746,6 +3801,9 @@ function BlockMove(keyEvent){
                                     }
                                 }
                             }
+                        }
+                        if(!find){
+                            canTurn = false;
                         }
                         console.log(canTurn);
                         if(canTurn){
@@ -3800,12 +3858,14 @@ function BlockMove(keyEvent){
                         break;
                     case _lblock:
                         canTurn = true;
+                        find = false;
                         for(var i = 1; i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
+                                    find = true;
                                     switch(leftTurnCount){
                                         case 0:
                                             if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
@@ -3848,6 +3908,9 @@ function BlockMove(keyEvent){
                                     }
                                 }
                             }
+                        }
+                        if(!find){
+                            canTurn = false;
                         }
                         console.log(canTurn);
                         if(canTurn){
@@ -3902,12 +3965,14 @@ function BlockMove(keyEvent){
                         break;
                     case _zblock:
                     canTurn = true;
+                    find = false;
                     for(var i = 1; i <= 19; i++){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             console.log(leftTurnCount);
                             if(blockCheckColor == centerColor){
+                                find = true;
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
@@ -3950,6 +4015,9 @@ function BlockMove(keyEvent){
                                 }
                             }
                         }
+                    }
+                    if(!find){
+                        canTurn = false;
                     }
                     console.log(canTurn);
                     if(canTurn){
@@ -3998,12 +4066,17 @@ function BlockMove(keyEvent){
                         break;
                     case _sblock:
                         canTurn = true;
+                        find = false;
                         for(var i = 1; i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
+                                if(i < 2){
+                                    break;
+                                }
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
+                                    find = true;
                                     switch(leftTurnCount){
                                         case 0:
                                             if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor  || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
@@ -4046,6 +4119,9 @@ function BlockMove(keyEvent){
                                     }
                                 }
                             }
+                        }
+                        if(!find){
+                            canTurn = false;
                         }
                         console.log(canTurn);
                         if(canTurn){
@@ -4094,12 +4170,14 @@ function BlockMove(keyEvent){
                         break;
                     case _tblock:
                         canTurn = true;
+                        find = false;
                         for(var i = 1;  i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color; 
                                 if(blockCheckColor == centerColor){
                                     console.log(leftTurnCount);
+                                    find = true;
                                     switch(leftTurnCount){
                                         case 0:
                                             if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor){
@@ -4140,6 +4218,9 @@ function BlockMove(keyEvent){
                                     }
                                 }
                             }
+                        }
+                        if(!find){
+                            canTurn = false;
                         }
                         console.log(canTurn);
                         if(canTurn){
@@ -4185,9 +4266,14 @@ function BlockMove(keyEvent){
                         }
                         break;
                     default:
-                        break;
+                        return;
                 }
             lastOrder = "rightTurn";
+            break;
+        case "space":
+                for(var i = 0; i < 20; i++){
+                    BlockMove("down");
+                }
             break;
         default:
             break;
@@ -4206,9 +4292,7 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
     var blockCheckDown = document.getElementById("_"+_1plusI+"-"+j);
     var blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
     var blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
-    var blockCheckRightRight = document.getElementById("_"+i+"-"+_2plusJ);
     var blockCheckUp = document.getElementById("_"+_1minusI+"-"+j);
-    var blockCheckUpUp = document.getElementById("_"+_2minusI+"-"+j);
     var leftUp = document.getElementById("_"+_1minusI+"-"+_1minusJ);
     var rightUp = document.getElementById("_"+_1minusI+"-"+_1plusJ);
     var leftDown = document.getElementById("_"+_1plusI+"-"+_1minusJ);
@@ -4220,11 +4304,22 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
     var blockCheckColor = getComputedStyle(blockCheck).color;
     var blockCheckDownColor = getComputedStyle(blockCheckDown).backgroundColor;
     var blockCheckUpColor = getComputedStyle(blockCheckUp).backgroundColor;
-    var blockCheckUpUpColor = getComputedStyle(blockCheckUpUp).backgroundColor;
     var blockCheckLeftColor = getComputedStyle(blockCheckLeft).backgroundColor;
     var blockCheckRightColor = getComputedStyle(blockCheckRight).backgroundColor;
-    var blockCheckRightRightColor = getComputedStyle(blockCheckRightRight).backgroundColor;
-
+    if(_2minusI >= 0){
+        var blockCheckUpUp = document.getElementById("_"+_2minusI+"-"+j);
+        var blockCheckUpUpColor = getComputedStyle(blockCheckUpUp).backgroundColor;
+    }
+    if(_2plusJ < 11){
+        var blockCheckRightRight = document.getElementById("_"+i+"-"+_2plusJ);
+        var blockCheckRightRightColor = getComputedStyle(blockCheckRightRight).backgroundColor;
+    }
+    if(_1minusI < 0 || _1minusJ < 1 || _1plusJ > 10){
+        canTurn = false;
+        canMove = false;
+        console.log(":");
+        return;
+    }
     switch(_1check){
         case "left" :
             return blockCheckLeftColor;
