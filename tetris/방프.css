@@ -1,4 +1,5 @@
 #main_Tetris{
+    float: left;
     width: 300px;
     height: 80vh;
     background-color: black;
@@ -21,4 +22,30 @@ td{
     background-color: white;
     border: white;
 }
+#_nextImg{
+    display: inline-block;
+    margin-left: 10px;
+    line-height: 18.5vh;
+    vertical-align:middle;
+    text-align: center; 
+    width: 25vh;
+    height: 20vh;
+    background-color: black;
+}
 
+body{
+    background-color: #DDDDDD;
+}
+
+#_BGMPlay{
+    display: block;
+}
+
+button{
+    margin-left: 10px;
+}
+
+#comboBox{
+    background-color: #DDDDDD;
+    font-size: 20px;
+}
