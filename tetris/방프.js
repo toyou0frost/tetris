@@ -87,7 +87,6 @@ function BlockCreate(RdBlock){
         }
         ShowNextBlock(imgnumcheck);
         switch(RdBlock[blockCreateI]){
-        //switch(1){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -279,7 +278,6 @@ function BlockCreate(RdBlock){
 
 document.addEventListener('keydown', (event) => {
     const keyCode = event.key;
-    //console.log(keyCode);
     if(keyCode == " "){
         keyEvent = "space"
         quit = false;
@@ -292,7 +290,6 @@ document.addEventListener('keydown', (event) => {
         return;
     }
     else if(keyCode == "ArrowRight" && gameover != 1){
-        //console.log("right");
         keyEvent = "right";
         quit = false;
         BlockMove(keyEvent);
@@ -404,7 +401,6 @@ function LineClear(){
 }
 
 function BlockDown(lineclear){ //클리어된 라인위에있는 모든 블록을 내리는 함수
-    console.log("내려는 오는데 왜 지워지지를 않니");
     var linechange = 0;
     if(lineclear >= 1){
         linechange = lineclear - 1;
@@ -579,7 +575,6 @@ function BlockMove(keyEvent){
                     blockCheckDownColor = getComputedStyle(blockCheckDown).backgroundColor;
                     if(blockCheck.className == "currentBlockLocation" && blockCheckColor == _nowBlockColor){
                         if(blockCheckDownColor != defalutColor && blockCheckDownColor != _nowBlockColor && blockCheckDown.className != "currentBlockLocation" || blockCheckDown.className == "blockexist"){
-                            //console.log("a"+i+"_"+j);
                             canMove = false;
                             break;
                         }
@@ -589,9 +584,7 @@ function BlockMove(keyEvent){
                     break;
                 }
             }
-            //console.log(canMove);
             if(canMove){
-                //console.log("a");
                 for(var i = 19; i >= 0; i--){
                     for(var j = 1; j <= 10; j++){
                         _1plusI = i + 1;
@@ -613,7 +606,6 @@ function BlockMove(keyEvent){
             } 
             else{
                 if(blockCreateI == 7){
-                    //console.log("a");
                     blockCreateI = 0;
                     RdBlock = nextBlockType;
                 }
@@ -673,13 +665,10 @@ function BlockMove(keyEvent){
                         for(var j = 2; j <= 8; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j);
                             blockCheckColor = getComputedStyle(blockCheck).color;
-                            //console.log(leftTurnCount);
                             if(blockCheckColor == centerColor){
-                                //console.log(leftTurnCount);
                                 switch(leftTurnCount){
                                     case 0:
                                     case 2:
-                                        //console.log("a");
                                         ChangeColor(i,j,"up","upup", "right", "rightright", null, null);
                                         ChangeColor(i,j,"down",null, "left", null, null, null);
                                         break;
@@ -763,12 +752,9 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    //console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
-                                            //console.log("a");
                                             ChangeColor(i,j,"up","leftDown", "right", "left", null, null);
                                             ChangeColor(i,j,"down",null, "leftUp", null, null, null);
                                             break;
@@ -866,12 +852,9 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    //console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
-                                            //console.log("a");
                                             ChangeColor(i,j,"up","leftUp", "right", "left", null, null);
                                             ChangeColor(i,j,"down",null, "rightUp", null, null, null);
                                             break;
@@ -969,12 +952,9 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    //console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
-                                            //console.log("a");
                                             ChangeColor(i,j,"right","rightUp", "left", "rightDown", null, null);
                                             break;
                                         case 1:
@@ -1066,12 +1046,9 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
-                                            console.log("a");
                                             ChangeColor(i,j,"up","rightDown", "down", "leftDown", null, null);
                                             break;
                                         case 1:
@@ -1114,7 +1091,6 @@ function BlockMove(keyEvent){
                             blockCheckColor = getComputedStyle(blockCheck).color; 
                             if(blockCheckColor == centerColor){
                                 find = true;
-                                //console.log(leftTurnCount);
                                 switch(leftTurnCount){
                                     case 0:
                                         if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor){
@@ -1159,15 +1135,12 @@ function BlockMove(keyEvent){
                     if(!find){
                         canTurn = false;
                     }
-                    //console.log(canTurn);
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
                                             ChangeColor(i,j,"down", null ,"right", null, null, null);
@@ -1254,13 +1227,10 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 8; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    //console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
                                         case 2:
-                                            //console.log("a");
                                             ChangeColor(i,j,"up","upup", "right", "rightright", null, null);
                                             ChangeColor(i,j,"down",null, "left", null, null, null);
                                             break;
@@ -1293,7 +1263,6 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
                                     find = true;
                                     switch(leftTurnCount){
@@ -1304,7 +1273,6 @@ function BlockMove(keyEvent){
                                             break;
                                         case 1:
                                             if(lastOrder == "leftTurn"){
-                                                //console.log("d");
                                                 if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
                                                     canTurn = false;
                                                 }
@@ -1341,18 +1309,14 @@ function BlockMove(keyEvent){
                         if(!find){
                             canTurn = false;
                         }
-                        console.log(canTurn);
                         if(canTurn){
                             for(var i = 1;  i <= 19; i++){
                                 for(var j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
-                                    //console.log(leftTurnCount);
                                     if(blockCheckColor == centerColor){
-                                        console.log(leftTurnCount);
                                         switch(leftTurnCount){
                                             case 0:
-                                                //console.log("a");
                                                 ChangeColor(i,j,"up","down", "right", "left", null, null);
                                                 ChangeColor(i,j,"rightUp", null, "leftUp", null, null, null);
                                                 break;
@@ -1399,7 +1363,6 @@ function BlockMove(keyEvent){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
                                     find = true;
                                     switch(leftTurnCount){
@@ -1410,7 +1373,6 @@ function BlockMove(keyEvent){
                                             break;
                                         case 1:
                                             if(lastOrder == "leftTurn"){
-                                                //console.log("d");
                                                 if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
                                                     canTurn = false;
                                                 }
@@ -1424,7 +1386,6 @@ function BlockMove(keyEvent){
                                         case 2:
                                             if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"up", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftUp", null) != defalutColor){
                                                 canTurn = false;
-                                                console.log("a");
                                             }
                                             break;
                                         case 3:
@@ -1448,18 +1409,14 @@ function BlockMove(keyEvent){
                         if(!find){
                             canTurn = false;
                         }
-                        console.log(canTurn);
                         if(canTurn){
                             for(var i = 1;  i <= 19; i++){
                                 for(var j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
-                                    //console.log(leftTurnCount);
                                     if(blockCheckColor == centerColor){
-                                        console.log(leftTurnCount);
                                         switch(leftTurnCount){
                                             case 0:
-                                                //console.log("a");
                                                 ChangeColor(i,j,"up","down", "right", "left", null, null);
                                                 ChangeColor(i,j,"rightDown", null, "rightUp", null, null, null);
                                                 break;
@@ -1506,7 +1463,6 @@ function BlockMove(keyEvent){
                         for(var j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
-                            console.log(leftTurnCount);
                             if(blockCheckColor == centerColor){
                                 find = true;
                                 switch(leftTurnCount){
@@ -1517,7 +1473,6 @@ function BlockMove(keyEvent){
                                         break;
                                     case 1:
                                         if(lastOrder == "leftTurn"){
-                                            //console.log("d");
                                             if(ChangeColor(i,j,null,null,null,null,"left", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
                                                 canTurn = false;
                                             }
@@ -1531,7 +1486,6 @@ function BlockMove(keyEvent){
                                     case 2:
                                         if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightUp", null) != defalutColor){
                                             canTurn = false;
-                                            console.log("a");
                                         }
                                         break;
                                     case 3:
@@ -1555,18 +1509,14 @@ function BlockMove(keyEvent){
                     if(!find){
                         canTurn = false;
                     }
-                    console.log(canTurn);
                     if(canTurn){
                         for(var i = 1;  i <= 19; i++){
                             for(var j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                //console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
-                                    console.log(leftTurnCount);
                                     switch(leftTurnCount){
                                         case 0:
-                                            console.log("a");
                                             ChangeColor(i,j,"up","leftDown", "down", "rightDown", null, null);
                                             break;
                                         case 1:
@@ -1610,7 +1560,6 @@ function BlockMove(keyEvent){
                                 }
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
-                                console.log(leftTurnCount);
                                 if(blockCheckColor == centerColor){
                                     find = true;
                                     switch(leftTurnCount){
@@ -1621,7 +1570,6 @@ function BlockMove(keyEvent){
                                             break;
                                         case 1:
                                             if(lastOrder == "leftTurn"){
-                                                //console.log("d");
                                                 if(ChangeColor(i,j,null,null,null,null,"down", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"leftDown", null) != defalutColor){
                                                     canTurn = false;
                                                 }
@@ -1635,7 +1583,6 @@ function BlockMove(keyEvent){
                                         case 2:
                                             if(ChangeColor(i,j,null,null,null,null,"right", null) != defalutColor || ChangeColor(i,j,null,null,null,null,"rightDown", null) != defalutColor){
                                                 canTurn = false;
-                                                console.log("a");
                                             }
                                             break;
                                         case 3:
@@ -1659,18 +1606,14 @@ function BlockMove(keyEvent){
                         if(!find){
                             canTurn = false;
                         }
-                        console.log(canTurn);
                         if(canTurn){
                             for(var i = 1;  i <= 19; i++){
                                 for(var j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
-                                    //console.log(leftTurnCount);
                                     if(blockCheckColor == centerColor){
-                                        console.log(leftTurnCount);
                                         switch(leftTurnCount){
                                             case 0:
-                                                console.log("a");
                                                 ChangeColor(i,j,"left","leftUp", "right", "leftDown", null, null);
                                                 break;
                                             case 1:
@@ -1712,7 +1655,6 @@ function BlockMove(keyEvent){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color; 
                                 if(blockCheckColor == centerColor){
-                                    console.log(leftTurnCount);
                                     find = true;
                                     switch(leftTurnCount){
                                         case 0:
@@ -1758,13 +1700,11 @@ function BlockMove(keyEvent){
                         if(!find){
                             canTurn = false;
                         }
-                        console.log(canTurn);
                         if(canTurn){
                             for(var i = 1;  i <= 19; i++){
                                 for(var j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
-                                    console.log(leftTurnCount);
                                     if(blockCheckColor == centerColor){
                                         switch(leftTurnCount){
                                             case 0:
@@ -1817,7 +1757,6 @@ function BlockMove(keyEvent){
 }
 
 function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
-    //console.log("a");
     var _1minusI = i - 1;
     var _2minusI = i - 2;
     var _1plusI = i + 1;
@@ -1853,7 +1792,6 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
     if(_1minusI < 0 || _1minusJ < 1 || _1plusJ > 10){
         canTurn = false;
         canMove = false;
-        console.log(":");
         return;
     }
     switch(_1check){
