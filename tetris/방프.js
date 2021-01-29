@@ -140,9 +140,9 @@ function BlockCreate(RdBlock){
                 leftCount = 0;
                 rightCount = 0;
                 if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_5.className == "blockexist"){
-                    _0_4.style.backgroundColor = _jblock;
-                    _0_5.style.backgroundColor = _jblock;
-                    _0_6.style.backgroundColor = _jblock;
+                    _0_4.style.backgroundColor = _lblock;
+                    _0_5.style.backgroundColor = _lblock;
+                    _0_6.style.backgroundColor = _lblock;
                     GameOver();
                 }
                 if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
@@ -168,8 +168,8 @@ function BlockCreate(RdBlock){
                 leftCount = 0;
                 rightCount = 0;
                 if(_1_5.className == "blockexist" || _1_6.className == "blockexist"){
-                    _0_5.style.backgroundColor = _jblock;
-                    _0_6.style.backgroundColor = _jblock;
+                    _0_5.style.backgroundColor = _oblock;
+                    _0_6.style.backgroundColor = _oblock;
                     GameOver();
                 }
                 if(_0_5.className != "blockexist" && _0_6.className != "blockexist"){
@@ -192,8 +192,8 @@ function BlockCreate(RdBlock){
                 leftCount = 0;
                 rightCount = 0;
                 if(_1_4.className == "blockexist" || _1_5.className == "blockexist"){
-                    _0_5.style.backgroundColor = _jblock;
-                    _0_4.style.backgroundColor = _jblock;
+                    _0_5.style.backgroundColor = _sblock;
+                    _0_4.style.backgroundColor = _sblock;
                     GameOver();
                 }
                 if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
@@ -219,9 +219,9 @@ function BlockCreate(RdBlock){
                 leftCount = 0;
                 rightCount = 0;
                 if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_6.className == "blockexist"){
-                    _0_6.style.backgroundColor = _jblock;
-                    _0_5.style.backgroundColor = _jblock;
-                    _0_4.style.backgroundColor = _jblock;
+                    _0_6.style.backgroundColor = _tblock;
+                    _0_5.style.backgroundColor = _tblock;
+                    _0_4.style.backgroundColor = _tblock;
                     GameOver();
                 }
                 if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
@@ -247,9 +247,9 @@ function BlockCreate(RdBlock){
                 leftCount = 0;
                 rightCount = 0;
                 if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_6.className == "blockexist"){
-                    _0_6.style.backgroundColor = _jblock;
-                    _0_5.style.backgroundColor = _jblock;
-                    _0_4.style.backgroundColor = _jblock;
+                    _0_6.style.backgroundColor = _zblock;
+                    _0_5.style.backgroundColor = _zblock;
+                    _0_4.style.backgroundColor = _zblock;
                     GameOver();
                 }
                 if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
@@ -563,6 +563,7 @@ function BlockMove(keyEvent){
                 }
                 return;
             }
+            lastOrder = "right";
             break;
         case "down":
             canMove = true;
@@ -617,7 +618,6 @@ function BlockMove(keyEvent){
                 LineClear();
                 BlockCreate(RdBlock);
             }
-            lastOrder = "right";
             break;
         case "leftTurn":
             canMove = true;
