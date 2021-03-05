@@ -1,35 +1,39 @@
-var _lineI = 19;
-var centerColor = "rgb(0, 255, 254)";
-var defalutColor = "rgb(32, 32, 32)";
-var _iblock = "rgb(0, 255, 255)";
-var _jblock = "rgb(0, 0, 255)";
-var _lblock = "rgb(255, 140, 0)";
-var _oblock = "rgb(255, 215, 0)";
-var _sblock = "rgb(152, 251, 152)";
-var _tblock = "rgb(128, 0, 128)";
-var _zblock = "rgb(255, 0, 0)";
-var _nowBlockColor;
-var BlockType = [0, 1, 2, 3, 4, 5, 6];
-var nextBlockType = [0, 1, 2, 3, 4, 5, 6];
-var RdBlock = BlockType;
-var blockCreateI = 0;
-var leftCount = 0;
-var rightCount = 0;
-var leftTurnCount = 0;
-var rightTurnCount = 0;
-var lineClearCount = 0;
-var gameover = 0;
-var ing = false; 
-var stop = false;
-var keyEvent = null;
-var blockMoveOK = false;
-var quit = false;
-var spin = false;
-var canTurn = false;
-var lastOrder;
-var find = false;
-var combo = 0;
-var lineClearCheck = false;
+let _lineI = 19;
+const centerColor = "rgb(0, 255, 254)";
+const defalutColor = "rgb(32, 32, 32)";
+const _iblock = "rgb(0, 255, 255)";
+const _jblock = "rgb(0, 0, 255)";
+const _lblock = "rgb(255, 140, 0)";
+const _oblock = "rgb(255, 215, 0)";
+const _sblock = "rgb(152, 251, 152)";
+const _tblock = "rgb(128, 0, 128)";
+const _zblock = "rgb(255, 0, 0)";
+let _nowBlockColor;
+let BlockType = [0, 1, 2, 3, 4, 5, 6];
+let nextBlockType = [0, 1, 2, 3, 4, 5, 6];
+let RdBlock = BlockType;
+let blockCreateI = 0;
+let leftCount = 0;
+let rightCount = 0;
+let leftTurnCount = 0;
+let rightTurnCount = 0;
+let lineClearCount = 0;
+let gameover = 0;
+let ing = false; 
+let stop = false;
+let keyEvent = null;
+let blockMoveOK = false;
+let quit = false;
+let spin = false;
+let canTurn = false;
+let lastOrder;
+let find = false;
+let combo = 0;
+let lineClearCheck = false;
+let holdBlankStatus = true; // 홀드칸이 비어있는 상태
+let holddingBlock; 
+let findBlock = new Array(4);
+let blockHoldTF = false;
 
 onload = function(){
     ClassInitialization();
@@ -48,7 +52,7 @@ const ShuffleBlock = array => {
 };
 
 function ShowNextBlock(num){
-    var nextimg = document.getElementById("_nxtBlock-img");
+    let nextimg = document.getElementById("_nxtBlock-img");
     nextimg.setAttribute("src", num + ".png");
 }
 
@@ -63,16 +67,16 @@ setInterval(function BlockFall() {
     return;
 }, 3000) 
 
-var test = 1;
+let test = 1;
 function BlockCreate(RdBlock){
-    var _0_4 = document.getElementById("_0-4");
-    var _0_5 = document.getElementById("_0-5");
-    var _0_6 = document.getElementById("_0-6");
-    var _0_7 = document.getElementById("_0-7");
-    var _1_4 = document.getElementById("_1-4");
-    var _1_5 = document.getElementById("_1-5"); 
-    var _1_6 = document.getElementById("_1-6");
-    var imgnumcheck = 0;
+    let _0_4 = document.getElementById("_0-4");
+    let _0_5 = document.getElementById("_0-5");
+    let _0_6 = document.getElementById("_0-6");
+    let _0_7 = document.getElementById("_0-7");
+    let _1_4 = document.getElementById("_1-4");
+    let _1_5 = document.getElementById("_1-5"); 
+    let _1_6 = document.getElementById("_1-6");
+    let imgnumcheck = 0;
     for(blockCreateI; blockCreateI < 7;){
         if(blockCreateI > 6){
             ShuffleBlock(BlockType);
@@ -86,7 +90,198 @@ function BlockCreate(RdBlock){
             }
         }
         ShowNextBlock(imgnumcheck);
-        switch(RdBlock[blockCreateI]){
+        if(blockHoldTF){
+            blockHoldTF = false;
+            blockCreateI--;
+            switch(holddingBlock){
+            case 0: 
+                leftCount = 0;
+                rightCount = 0;
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist" && _0_7.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _0_7.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _iblock; 
+                    _0_5.style.backgroundColor = _iblock;
+                    _0_5.style.color = centerColor;
+                    _0_6.style.backgroundColor = _iblock;
+                    _0_7.style.backgroundColor = _iblock;
+                }
+                _nowBlockColor = _iblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 1: 
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_5.className == "blockexist"){
+                    _0_4.style.backgroundColor = _jblock;
+                    _0_5.style.backgroundColor = _jblock;
+                    _0_6.style.backgroundColor = _jblock;
+                    GameOver();
+                }
+                else if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _jblock; 
+                    _1_4.style.backgroundColor = _jblock;
+                    _1_5.style.backgroundColor = _jblock;
+                    _1_6.style.backgroundColor = _jblock;
+                    _1_5.style.color = centerColor;
+                }
+                test = 6; // 테스트용
+                _nowBlockColor = _jblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 2:
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_5.className == "blockexist"){
+                    _0_4.style.backgroundColor = _lblock;
+                    _0_5.style.backgroundColor = _lblock;
+                    _0_6.style.backgroundColor = _lblock;
+                    GameOver();
+                }
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_6.style.backgroundColor = _lblock;
+                    _1_4.style.backgroundColor = _lblock; 
+                    _1_5.style.backgroundColor = _lblock;
+                    _1_6.style.backgroundColor = _lblock;
+                    _1_5.style.color = centerColor;
+                }
+                _nowBlockColor = _lblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 3:
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_5.className == "blockexist" || _1_6.className == "blockexist"){
+                    _0_5.style.backgroundColor = _oblock;
+                    _0_6.style.backgroundColor = _oblock;
+                    GameOver();
+                }
+                if(_0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _oblock; 
+                    _0_6.style.backgroundColor = _oblock;
+                    _1_5.style.backgroundColor = _oblock;
+                    _1_6.style.backgroundColor = _oblock;
+                }
+                _nowBlockColor = _oblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 4:
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_4.className == "blockexist" || _1_5.className == "blockexist"){
+                    _0_5.style.backgroundColor = _sblock;
+                    _0_4.style.backgroundColor = _sblock;
+                    GameOver();
+                }
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _sblock; 
+                    _0_6.style.backgroundColor = _sblock;
+                    _1_4.style.backgroundColor = _sblock;
+                    _1_5.style.backgroundColor = _sblock;
+                    _0_5.style.color = centerColor;
+                }
+                _nowBlockColor = _sblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 5:
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_6.className == "blockexist"){
+                    _0_6.style.backgroundColor = _tblock;
+                    _0_5.style.backgroundColor = _tblock;
+                    _0_4.style.backgroundColor = _tblock;
+                    GameOver();
+                }
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_5.style.backgroundColor = _tblock;
+                    _1_4.style.backgroundColor = _tblock; 
+                    _1_5.style.backgroundColor = _tblock;
+                    _1_6.style.backgroundColor = _tblock;
+                    _1_5.style.color = centerColor;
+                }
+                _nowBlockColor = _tblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+            case 6:
+                leftCount = 0;
+                rightCount = 0;
+                if(_1_4.className == "blockexist" || _1_5.className == "blockexist" || _1_6.className == "blockexist"){
+                    _0_6.style.backgroundColor = _zblock;
+                    _0_5.style.backgroundColor = _zblock;
+                    _0_4.style.backgroundColor = _zblock;
+                    GameOver();
+                }
+                if(_0_4.className != "blockexist" && _0_5.className != "blockexist" && _0_6.className != "blockexist"){
+                    _0_4.setAttribute("class", "currentBlockLocation");
+                    _0_5.setAttribute("class", "currentBlockLocation");
+                    _0_6.setAttribute("class", "currentBlockLocation");
+                    _1_4.setAttribute("class", "currentBlockLocation");
+                    _1_5.setAttribute("class", "currentBlockLocation");
+                    _1_6.setAttribute("class", "currentBlockLocation");
+                    _0_4.style.backgroundColor = _zblock; 
+                    _0_5.style.backgroundColor = _zblock;
+                    _1_5.style.backgroundColor = _zblock;
+                    _1_6.style.backgroundColor = _zblock;
+                    _0_5.style.color = centerColor;
+                }
+                test = 1; // 테스트용
+                _nowBlockColor = _zblock;
+                blockCreateI++
+                ing = false;
+                spin = false;
+                BlockFall();
+                break;
+        }
+    }  
+    else switch(RdBlock[blockCreateI]){
             case 0: 
                 leftCount = 0;
                 rightCount = 0;
@@ -314,12 +509,17 @@ document.addEventListener('keydown', (event) => {
         BlockMove(keyEvent);
         return;
     }
+    else if(keyCode == "Shift"){
+        keyEvent = "Shift";
+        quit = false;
+        BlockHold(keyEvent);
+    }
 })
 
 function ClassInitialization() {
     leftTurnCount = 0;
-    for(var i = 0 ; i <= 20; i++){
-        for(var j = 1; j <= 10; j++){
+    for(let i = 0 ; i <= 20; i++){
+        for(let j = 1; j <= 10; j++){
             document.getElementById("_"+i+"-"+j).setAttribute("class", "");
             document.getElementById("_"+i+"-"+j).style.color = null;
         }
@@ -327,10 +527,10 @@ function ClassInitialization() {
 }
 
 function BlockExist(){
-    for(var i = 0; i <= 20; i++){
-        for(var j = 1; j <= 10; j++){
-            var nowBlock = document.getElementById("_"+i+"-"+j);
-            var nowBlockColor = getComputedStyle(nowBlock).backgroundColor;
+    for(let i = 0; i <= 20; i++){
+        for(let j = 1; j <= 10; j++){
+            let nowBlock = document.getElementById("_"+i+"-"+j);
+            let nowBlockColor = getComputedStyle(nowBlock).backgroundColor;
             if(nowBlockColor != defalutColor){
                 nowBlock.setAttribute("class", "blockexist");
             }
@@ -350,19 +550,19 @@ function GameOver(){
 
 function LineClear(){
     lineClearCheck = false;
-    var count = 0;
-    var lineclear = 0;
-    for(var i = 20; i >= 0; i--){
-        var _i_1 = document.getElementById("_"+i+"-1");
-        var _i_2 = document.getElementById("_"+i+"-2");
-        var _i_3 = document.getElementById("_"+i+"-3");
-        var _i_4 = document.getElementById("_"+i+"-4");
-        var _i_5 = document.getElementById("_"+i+"-5");
-        var _i_6 = document.getElementById("_"+i+"-6");
-        var _i_7 = document.getElementById("_"+i+"-7");
-        var _i_8 = document.getElementById("_"+i+"-8");
-        var _i_9 = document.getElementById("_"+i+"-9");
-        var _i_10 = document.getElementById("_"+i+"-10");
+    let count = 0;
+    let lineclear = 0;
+    for(let i = 20; i >= 0; i--){
+        let _i_1 = document.getElementById("_"+i+"-1");
+        let _i_2 = document.getElementById("_"+i+"-2");
+        let _i_3 = document.getElementById("_"+i+"-3");
+        let _i_4 = document.getElementById("_"+i+"-4");
+        let _i_5 = document.getElementById("_"+i+"-5");
+        let _i_6 = document.getElementById("_"+i+"-6");
+        let _i_7 = document.getElementById("_"+i+"-7");
+        let _i_8 = document.getElementById("_"+i+"-8");
+        let _i_9 = document.getElementById("_"+i+"-9");
+        let _i_10 = document.getElementById("_"+i+"-10");
         if(_i_1.className == "blockexist" && _i_2.className == "blockexist" && _i_3.className == "blockexist" && _i_4.className == "blockexist" && _i_5.className == "blockexist" && _i_6.className == "blockexist" && _i_7.className == "blockexist" && _i_8.className == "blockexist" && _i_9.className == "blockexist" && _i_10.className == "blockexist"){
             _i_1.style.backgroundColor = defalutColor;
             _i_2.style.backgroundColor = defalutColor;
@@ -401,34 +601,34 @@ function LineClear(){
 }
 
 function BlockDown(lineclear){ //클리어된 라인위에있는 모든 블록을 내리는 함수
-    var linechange = 0;
+    let linechange = 0;
     if(lineclear >= 1){
         linechange = lineclear - 1;
     }
     else return null;
 
-    for(var a = lineclear; a > 1; a--){
-        var _i_1 = document.getElementById("_"+a+"-1");
-        var _i_2 = document.getElementById("_"+a+"-2");
-        var _i_3 = document.getElementById("_"+a+"-3");
-        var _i_4 = document.getElementById("_"+a+"-4");
-        var _i_5 = document.getElementById("_"+a+"-5");
-        var _i_6 = document.getElementById("_"+a+"-6");
-        var _i_7 = document.getElementById("_"+a+"-7");
-        var _i_8 = document.getElementById("_"+a+"-8");
-        var _i_9 = document.getElementById("_"+a+"-9");
-        var _i_10 = document.getElementById("_"+a+"-10");
-        var j = a - 1 ;
-        var _j_1 = document.getElementById("_"+j+"-1");
-        var _j_2 = document.getElementById("_"+j+"-2");
-        var _j_3 = document.getElementById("_"+j+"-3");
-        var _j_4 = document.getElementById("_"+j+"-4");
-        var _j_5 = document.getElementById("_"+j+"-5");
-        var _j_6 = document.getElementById("_"+j+"-6");
-        var _j_7 = document.getElementById("_"+j+"-7");
-        var _j_8 = document.getElementById("_"+j+"-8");
-        var _j_9 = document.getElementById("_"+j+"-9");
-        var _j_10 = document.getElementById("_"+j+"-10");
+    for(let a = lineclear; a > 1; a--){
+        let _i_1 = document.getElementById("_"+a+"-1");
+        let _i_2 = document.getElementById("_"+a+"-2");
+        let _i_3 = document.getElementById("_"+a+"-3");
+        let _i_4 = document.getElementById("_"+a+"-4");
+        let _i_5 = document.getElementById("_"+a+"-5");
+        let _i_6 = document.getElementById("_"+a+"-6");
+        let _i_7 = document.getElementById("_"+a+"-7");
+        let _i_8 = document.getElementById("_"+a+"-8");
+        let _i_9 = document.getElementById("_"+a+"-9");
+        let _i_10 = document.getElementById("_"+a+"-10");
+        let j = a - 1 ;
+        let _j_1 = document.getElementById("_"+j+"-1");
+        let _j_2 = document.getElementById("_"+j+"-2");
+        let _j_3 = document.getElementById("_"+j+"-3");
+        let _j_4 = document.getElementById("_"+j+"-4");
+        let _j_5 = document.getElementById("_"+j+"-5");
+        let _j_6 = document.getElementById("_"+j+"-6");
+        let _j_7 = document.getElementById("_"+j+"-7");
+        let _j_8 = document.getElementById("_"+j+"-8");
+        let _j_9 = document.getElementById("_"+j+"-9");
+        let _j_10 = document.getElementById("_"+j+"-10");
         _i_1.style.backgroundColor = _j_1.style.backgroundColor;
         _i_2.style.backgroundColor = _j_2.style.backgroundColor;
         _i_3.style.backgroundColor = _j_3.style.backgroundColor;
@@ -445,46 +645,46 @@ function BlockDown(lineclear){ //클리어된 라인위에있는 모든 블록�
 }
 
 function BlockMove(keyEvent){
-    var canMove = true;
-    var _1plusI = 0;
-    var _1minusJ = 0;
-    var _1plusJ = 0;
-    var _2plusI = 0
-    var _1minusI = 0;
-    var _2minusI = 0;
-    var _3plusj = 0;
-    var blockCheck;
-    var blockCheckDown;
-    var blockCheckLeft;
-    var blockCheckRight;
-    var blockCheckUp;
-    var blockCheckColor;
-    var blockCheckDownColor;
-    var blockCheck_1Down;
-    var blockCheck_2Down;
-    var blockCheck_1Up;
-    var blockCheck_2Up;
-    var blockCheck_1DownColor;
-    var blockCheck_2DownColor;
-    var blockCheck_1UpColor;
-    var blockCheck_2UpColor;
-    var blockCheck_1Left;
-    var blockCheck_2Left;
-    var blockCheck_1Right;
-    var blockCheck_2Right;
-    var blockCheck_1RightColor;
-    var blockCheck_2RightColor;
-    var blockCheck_1LeftColor;
-    var blockCheck_2LeftColor;
-    var blockCheck_3Right;
-    var blockCheck_3RightColor;
-    var blockCheckUpColor;
+    let canMove = true;
+    let _1plusI = 0;
+    let _1minusJ = 0;
+    let _1plusJ = 0;
+    let _2plusI = 0
+    let _1minusI = 0;
+    let _2minusI = 0;
+    let _3plusj = 0;
+    let blockCheck;
+    let blockCheckDown;
+    let blockCheckLeft;
+    let blockCheckRight;
+    let blockCheckUp;
+    let blockCheckColor;
+    let blockCheckDownColor;
+    let blockCheck_1Down;
+    let blockCheck_2Down;
+    let blockCheck_1Up;
+    let blockCheck_2Up;
+    let blockCheck_1DownColor;
+    let blockCheck_2DownColor;
+    let blockCheck_1UpColor;
+    let blockCheck_2UpColor;
+    let blockCheck_1Left;
+    let blockCheck_2Left;
+    let blockCheck_1Right;
+    let blockCheck_2Right;
+    let blockCheck_1RightColor;
+    let blockCheck_2RightColor;
+    let blockCheck_1LeftColor;
+    let blockCheck_2LeftColor;
+    let blockCheck_3Right;
+    let blockCheck_3RightColor;
+    let blockCheckUpColor;
 
     switch(keyEvent){
         case "left":
             canMove = true;
-            for(var i = 0; i <= 20; i++){
-                for(var j = 1; j <= 10; j++){
+            for(let i = 0; i <= 20; i++){
+                for(let j = 1; j <= 10; j++){
                     _1minusJ = j - 1;
                     blockCheck = document.getElementById("_"+i+"-"+j);
                     blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
@@ -502,8 +702,8 @@ function BlockMove(keyEvent){
                 }
             }
             if(canMove){
-                for(var i = 0; i <= 20; i++){
-                    for(var j = 1; j <= 10; j++){
+                for(let i = 0; i <= 20; i++){
+                    for(let j = 1; j <= 10; j++){
                         _1minusJ = j - 1;
                         blockCheck = document.getElementById("_"+i+"-"+j);
                         blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
@@ -525,8 +725,8 @@ function BlockMove(keyEvent){
             break;
         case "right":
             canMove = true;
-            for(var i = 20; i >= 0; i--){
-                for(var j = 10; j > 0; j--){
+            for(let i = 20; i >= 0; i--){
+                for(let j = 10; j > 0; j--){
                     _1plusJ = j + 1;
                     blockCheck = document.getElementById("_"+i+"-"+j);
                     blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
@@ -544,8 +744,8 @@ function BlockMove(keyEvent){
                 }
             }
             if(canMove){
-                for(var i = 20; i >= 0; i--){
-                    for(var j = 10; j > 0; j--){
+                for(let i = 20; i >= 0; i--){
+                    for(let j = 10; j > 0; j--){
                         _1plusJ = j + 1;
                         blockCheck = document.getElementById("_"+i+"-"+j);
                         blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
@@ -567,8 +767,8 @@ function BlockMove(keyEvent){
             break;
         case "down":
             canMove = true;
-            for(var i = 20; i >= 0; i--){
-                for(var j = 1; j <= 10; j++){
+            for(let i = 20; i >= 0; i--){
+                for(let j = 1; j <= 10; j++){
                     _1plusI = i + 1;
                     blockCheck = document.getElementById("_"+i+"-"+j);
                     blockCheckDown = document.getElementById("_"+_1plusI+"-"+j);
@@ -586,8 +786,8 @@ function BlockMove(keyEvent){
                 }
             }
             if(canMove){
-                for(var i = 19; i >= 0; i--){
-                    for(var j = 1; j <= 10; j++){
+                for(let i = 19; i >= 0; i--){
+                    for(let j = 1; j <= 10; j++){
                         _1plusI = i + 1;
                         blockCheck = document.getElementById("_"+i+"-"+j);
                         blockCheckDown = document.getElementById("_"+_1plusI+"-"+j);
@@ -625,8 +825,8 @@ function BlockMove(keyEvent){
                 case _iblock: 
                 canTurn = true;
                 find = false;
-                for(var i = 2; i <= 19; i++){
-                    for(var j = 2; j <= 8; j++){
+                for(let i = 2; i <= 19; i++){
+                    for(let j = 2; j <= 8; j++){
                         blockCheck = document.getElementById("_"+i+"-"+j); 
                         blockCheckColor = getComputedStyle(blockCheck).color;
                         if(blockCheckColor == centerColor){
@@ -661,8 +861,8 @@ function BlockMove(keyEvent){
                     canTurn = false;
                 }
                 if(canTurn){
-                    for(var i = 2;  i <= 19; i++){
-                        for(var j = 2; j <= 8; j++){
+                    for(let i = 2;  i <= 19; i++){
+                        for(let j = 2; j <= 8; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j);
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -697,8 +897,8 @@ function BlockMove(keyEvent){
                 case _jblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1; i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1; i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -748,8 +948,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -797,8 +997,8 @@ function BlockMove(keyEvent){
                 case _lblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1; i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1; i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -848,8 +1048,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -897,8 +1097,8 @@ function BlockMove(keyEvent){
                 case _zblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1; i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1; i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -948,8 +1148,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -991,8 +1191,8 @@ function BlockMove(keyEvent){
                 case _sblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1; i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1; i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -1042,8 +1242,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1085,8 +1285,8 @@ function BlockMove(keyEvent){
                 case _tblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1;  i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1;  i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color; 
                             if(blockCheckColor == centerColor){
@@ -1136,8 +1336,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1187,8 +1387,8 @@ function BlockMove(keyEvent){
                     case _iblock: 
                     canTurn = true;
                     find = false;
-                    for(var i = 2; i <= 19; i++){
-                        for(var j = 2; j <= 8; j++){
+                    for(let i = 2; i <= 19; i++){
+                        for(let j = 2; j <= 8; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -1223,8 +1423,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 2;  i <= 19; i++){
-                            for(var j = 2; j <= 8; j++){
+                        for(let i = 2;  i <= 19; i++){
+                            for(let j = 2; j <= 8; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1259,8 +1459,8 @@ function BlockMove(keyEvent){
                     case _jblock:
                         canTurn = true;
                         find = false;
-                        for(var i = 1; i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1; i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1310,8 +1510,8 @@ function BlockMove(keyEvent){
                             canTurn = false;
                         }
                         if(canTurn){
-                            for(var i = 1;  i <= 19; i++){
-                                for(var j = 2; j <= 9; j++){
+                            for(let i = 1;  i <= 19; i++){
+                                for(let j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
                                     if(blockCheckColor == centerColor){
@@ -1359,8 +1559,8 @@ function BlockMove(keyEvent){
                     case _lblock:
                         canTurn = true;
                         find = false;
-                        for(var i = 1; i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1; i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1410,8 +1610,8 @@ function BlockMove(keyEvent){
                             canTurn = false;
                         }
                         if(canTurn){
-                            for(var i = 1;  i <= 19; i++){
-                                for(var j = 2; j <= 9; j++){
+                            for(let i = 1;  i <= 19; i++){
+                                for(let j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
                                     if(blockCheckColor == centerColor){
@@ -1459,8 +1659,8 @@ function BlockMove(keyEvent){
                     case _zblock:
                     canTurn = true;
                     find = false;
-                    for(var i = 1; i <= 19; i++){
-                        for(var j = 2; j <= 9; j++){
+                    for(let i = 1; i <= 19; i++){
+                        for(let j = 2; j <= 9; j++){
                             blockCheck = document.getElementById("_"+i+"-"+j); 
                             blockCheckColor = getComputedStyle(blockCheck).color;
                             if(blockCheckColor == centerColor){
@@ -1510,8 +1710,8 @@ function BlockMove(keyEvent){
                         canTurn = false;
                     }
                     if(canTurn){
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j);
                                 blockCheckColor = getComputedStyle(blockCheck).color;
                                 if(blockCheckColor == centerColor){
@@ -1553,8 +1753,8 @@ function BlockMove(keyEvent){
                     case _sblock:
                         canTurn = true;
                         find = false;
-                        for(var i = 1; i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1; i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 if(i < 2){
                                     break;
                                 }
@@ -1607,8 +1807,8 @@ function BlockMove(keyEvent){
                             canTurn = false;
                         }
                         if(canTurn){
-                            for(var i = 1;  i <= 19; i++){
-                                for(var j = 2; j <= 9; j++){
+                            for(let i = 1;  i <= 19; i++){
+                                for(let j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
                                     if(blockCheckColor == centerColor){
@@ -1650,8 +1850,8 @@ function BlockMove(keyEvent){
                     case _tblock:
                         canTurn = true;
                         find = false;
-                        for(var i = 1;  i <= 19; i++){
-                            for(var j = 2; j <= 9; j++){
+                        for(let i = 1;  i <= 19; i++){
+                            for(let j = 2; j <= 9; j++){
                                 blockCheck = document.getElementById("_"+i+"-"+j); 
                                 blockCheckColor = getComputedStyle(blockCheck).color; 
                                 if(blockCheckColor == centerColor){
@@ -1701,8 +1901,8 @@ function BlockMove(keyEvent){
                             canTurn = false;
                         }
                         if(canTurn){
-                            for(var i = 1;  i <= 19; i++){
-                                for(var j = 2; j <= 9; j++){
+                            for(let i = 1;  i <= 19; i++){
+                                for(let j = 2; j <= 9; j++){
                                     blockCheck = document.getElementById("_"+i+"-"+j);
                                     blockCheckColor = getComputedStyle(blockCheck).color;
                                     if(blockCheckColor == centerColor){
@@ -1747,7 +1947,7 @@ function BlockMove(keyEvent){
             lastOrder = "rightTurn";
             break;
         case "space":
-                for(var i = 0; i < 20; i++){
+                for(let i = 0; i < 20; i++){
                     BlockMove("down");
                 }
             break;
@@ -1757,37 +1957,41 @@ function BlockMove(keyEvent){
 }
 
 function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
-    var _1minusI = i - 1;
-    var _2minusI = i - 2;
-    var _1plusI = i + 1;
-    var _1minusJ = j - 1;
-    var _1plusJ = j + 1;
-    var _2plusJ = j + 2;
-    var blockCheck = document.getElementById("_"+i+"-"+j);
-    var blockCheckDown = document.getElementById("_"+_1plusI+"-"+j);
-    var blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
-    var blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
-    var blockCheckUp = document.getElementById("_"+_1minusI+"-"+j);
-    var leftUp = document.getElementById("_"+_1minusI+"-"+_1minusJ);
-    var rightUp = document.getElementById("_"+_1minusI+"-"+_1plusJ);
-    var leftDown = document.getElementById("_"+_1plusI+"-"+_1minusJ);
-    var rightDown = document.getElementById("_"+_1plusI+"-"+_1plusJ);
-    var rightUpColor = getComputedStyle(rightUp).backgroundColor;
-    var leftUpColor = getComputedStyle(leftUp).backgroundColor;
-    var rightDownColor = getComputedStyle(rightDown).backgroundColor;
-    var leftDownColor = getComputedStyle(leftDown).backgroundColor;
-    var blockCheckColor = getComputedStyle(blockCheck).color;
-    var blockCheckDownColor = getComputedStyle(blockCheckDown).backgroundColor;
-    var blockCheckUpColor = getComputedStyle(blockCheckUp).backgroundColor;
-    var blockCheckLeftColor = getComputedStyle(blockCheckLeft).backgroundColor;
-    var blockCheckRightColor = getComputedStyle(blockCheckRight).backgroundColor;
+    let _1minusI = i - 1;
+    let _2minusI = i - 2;
+    let _1plusI = i + 1;
+    let _1minusJ = j - 1;
+    let _1plusJ = j + 1;
+    let _2plusJ = j + 2;
+    let blockCheck = document.getElementById("_"+i+"-"+j);
+    let blockCheckDown = document.getElementById("_"+_1plusI+"-"+j);
+    let blockCheckLeft = document.getElementById("_"+i+"-"+_1minusJ);
+    let blockCheckRight = document.getElementById("_"+i+"-"+_1plusJ);
+    let blockCheckUp = document.getElementById("_"+_1minusI+"-"+j);
+    let leftUp = document.getElementById("_"+_1minusI+"-"+_1minusJ);
+    let rightUp = document.getElementById("_"+_1minusI+"-"+_1plusJ);
+    let leftDown = document.getElementById("_"+_1plusI+"-"+_1minusJ);
+    let rightDown = document.getElementById("_"+_1plusI+"-"+_1plusJ);
+    let rightUpColor = getComputedStyle(rightUp).backgroundColor;
+    let leftUpColor = getComputedStyle(leftUp).backgroundColor;
+    let rightDownColor = getComputedStyle(rightDown).backgroundColor;
+    let leftDownColor = getComputedStyle(leftDown).backgroundColor;
+    let blockCheckColor = getComputedStyle(blockCheck).color;
+    let blockCheckDownColor = getComputedStyle(blockCheckDown).backgroundColor;
+    let blockCheckUpColor = getComputedStyle(blockCheckUp).backgroundColor;
+    let blockCheckLeftColor = getComputedStyle(blockCheckLeft).backgroundColor;
+    let blockCheckRightColor = getComputedStyle(blockCheckRight).backgroundColor;
+    let blockCheckUpUp;
+    let blockCheckUpUpColor;
+    let blockCheckRightRight;
+    let blockCheckRightRightColor;
     if(_2minusI >= 0){
-        var blockCheckUpUp = document.getElementById("_"+_2minusI+"-"+j);
-        var blockCheckUpUpColor = getComputedStyle(blockCheckUpUp).backgroundColor;
+        blockCheckUpUp = document.getElementById("_"+_2minusI+"-"+j);
+        blockCheckUpUpColor = getComputedStyle(blockCheckUpUp).backgroundColor;
     }
     if(_2plusJ < 11){
-        var blockCheckRightRight = document.getElementById("_"+i+"-"+_2plusJ);
-        var blockCheckRightRightColor = getComputedStyle(blockCheckRightRight).backgroundColor;
+        blockCheckRightRight = document.getElementById("_"+i+"-"+_2plusJ);
+        blockCheckRightRightColor = getComputedStyle(blockCheckRightRight).backgroundColor;
     }
     if(_1minusI < 0 || _1minusJ < 1 || _1plusJ > 10){
         canTurn = false;
@@ -2007,7 +2211,7 @@ function ChangeColor(i,j,_1fill, _2fill,_1blank, _2blank,_1check, _2check){
 }
 
 function aud_play_pause() { 
-    var myAudio = document.getElementById("myAudio"); 
+    let myAudio = document.getElementById("myAudio"); 
     if (myAudio.paused) { 
         myAudio.play();
         document.getElementById("_play").innerText = 'BGM Pause';
@@ -2017,3 +2221,138 @@ function aud_play_pause() {
         document.getElementById("_play").innerText = 'BGM Play';
     } 
 } 
+
+const TransparentBlockCreate = () => { // 블록이 내려올 위치 보여주는 함수
+    
+}
+
+const BlockHold = () => { // 블록 홀딩 기능
+    if(holdBlankStatus === true){ // 홀드칸이  비어있는 상태
+        switch (_nowBlockColor){
+            case _iblock:
+                holddingBlock = 0;
+                break;
+            case _jblock:
+                holddingBlock = 1;
+                break;
+            case _lblock:
+                holddingBlock = 2;
+                break;
+            case _oblock:
+                holddingBlock = 3;
+                break;
+            case _sblock:
+                holddingBlock = 4;
+                break;
+            case _tblock:
+                holddingBlock = 5;
+                break;
+            case _zblock:
+                holddingBlock = 6;
+                break;
+        }
+        holdBlankStatus = false;
+        FindNowBlock();
+        if(findBlock[0] === undefined){
+            return;
+        }
+        findBlock[0].style.background = defalutColor;
+        findBlock[0].setAttribute("class", "");
+        findBlock[1].style.background = defalutColor;
+        findBlock[1].setAttribute("class", "");
+        findBlock[2].style.background = defalutColor;
+        findBlock[2].setAttribute("class", "");
+        findBlock[3].style.background = defalutColor;
+        findBlock[3].setAttribute("class", "");
+
+        if(blockCreateI == 7){
+            blockCreateI = 0;
+            RdBlock = nextBlockType;
+        }
+        ClassInitialization();
+        BlockExist();
+        LineClear();
+        LineClear();
+        LineClear();
+        LineClear();
+        BlockCreate(RdBlock);
+        
+    }
+    else if(holdBlankStatus === false){ // 홀드칸에 블록이 있는 상태
+        let swap;
+        switch (_nowBlockColor){
+            case _iblock:
+                swap = holddingBlock;
+                holddingBlock = 0;
+                break;
+            case _jblock:
+                swap = holddingBlock;
+                holddingBlock = 1;
+                break;
+            case _lblock:
+                swap = holddingBlock;
+                holddingBlock = 2;
+                break;
+            case _oblock:
+                swap = holddingBlock;
+                holddingBlock = 3;
+                break;
+            case _sblock:
+                swap = holddingBlock;
+                holddingBlock = 4;
+                break;
+            case _tblock:
+                swap = holddingBlock;
+                holddingBlock = 5;
+                break;
+            case _zblock:
+                swap = holddingBlock;
+                holddingBlock = 6;
+                break;
+        }
+
+        FindNowBlock();
+        if(findBlock[0] === undefined){
+            return;
+        }
+        findBlock[0].style.background = defalutColor;
+        findBlock[0].setAttribute("class", "");
+        findBlock[1].style.background = defalutColor;
+        findBlock[1].setAttribute("class", "");
+        findBlock[2].style.background = defalutColor;
+        findBlock[2].setAttribute("class", "");
+        findBlock[3].style.background = defalutColor;
+        findBlock[3].setAttribute("class", "");
+
+        if(blockCreateI == 7){
+            blockCreateI = 0;
+            RdBlock = nextBlockType;
+        }
+        ClassInitialization();
+        BlockExist();
+        LineClear();
+        LineClear();
+        LineClear();
+        LineClear();
+        blockHoldTF = true;
+        BlockCreate(swap);
+    }
+}
+
+const FindNowBlock = () => {
+    let arrayI = 0;
+    for(let i = 0; i <= 20; i++){
+        for(let j = 1; j <= 10; j++){
+            let _findBlock = document.getElementById("_"+i+"-"+j);
+            let findBlockColor = getComputedStyle(_findBlock).color;
+            if(findBlockColor == _nowBlockColor && _findBlock.className == "currentBlockLocation"){
+                findBlock[arrayI] = _findBlock;
+                console.log(findBlock[arrayI]);
+                arrayI++;
+            }
+            if(arrayI > 3){
+                return;
+            }
+        }
+    }
+}
